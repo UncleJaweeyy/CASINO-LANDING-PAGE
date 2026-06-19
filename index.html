@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TOP 新手豪礼 | 转盘礼金 888U</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="Site header">
+      <a class="brand" href="#top" aria-label="TOP Casino">
+        <span class="brand-mark">W</span>
+        <span>
+          <strong>WINBOX</strong>
+          <small>VIP CASINO</small>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="Quick actions">
+        <a href="#contact" class="planner">领奖专员：TOP企划</a>
+        <a href="#spin" class="login-button">登录</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-media" aria-hidden="true">
+          <img src="assets/casino-hero.png" alt="" />
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">TOP WELCOME BONUS</p>
+          <h1 id="hero-title">TOP新手豪礼，转盘礼金888U，豪礼相迎</h1>
+          <p class="hero-copy">
+            注册即享专属转盘，输入会员信息后开启豪华礼金。真人、电子、体育、棋牌一站式开局。
+          </p>
+          <div class="hero-cta">
+            <a href="#spin" class="primary-action">立即抽奖</a>
+            <a href="#contact" class="secondary-action">联系领奖专员</a>
+          </div>
+          <div class="hero-stats" aria-label="Promotion highlights">
+            <span><strong>888U</strong>最高礼金</span>
+            <span><strong>100%</strong>避开低奖</span>
+            <span><strong>24H</strong>专员服务</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="spin" class="spin-section" aria-labelledby="spin-title">
+        <div class="section-heading">
+          <p class="eyebrow">SPIN PART</p>
+          <h2 id="spin-title">WINBOX 豪礼转盘</h2>
+          <p>登记会员与 Telegram 用户名后开启抽奖；38U、88U、108U、188U 为展示位，不会被抽中。</p>
+        </div>
+
+        <div class="spin-grid">
+          <div class="wheel-stage">
+            <div class="wheel-shell">
+              <div class="wheel-pointer" aria-hidden="true"></div>
+              <div class="wheel" id="wheel" aria-label="Prize wheel">
+                <span style="--angle: 0deg; --counter-angle: 0deg">38U</span>
+                <span style="--angle: 36deg; --counter-angle: -36deg">88U</span>
+                <span style="--angle: 72deg; --counter-angle: -72deg">108U</span>
+                <span style="--angle: 108deg; --counter-angle: -108deg">188U</span>
+                <span style="--angle: 144deg; --counter-angle: -144deg">288U</span>
+                <span style="--angle: 180deg; --counter-angle: -180deg">588U</span>
+                <span style="--angle: 216deg; --counter-angle: -216deg">888U</span>
+                <span style="--angle: 252deg; --counter-angle: -252deg">288U</span>
+                <span style="--angle: 288deg; --counter-angle: -288deg">588U</span>
+                <span style="--angle: 324deg; --counter-angle: -324deg">888U</span>
+                <div class="wheel-logo">WINBOX</div>
+              </div>
+            </div>
+          </div>
+
+          <form class="spin-panel" id="spinForm">
+            <div class="panel-header">
+              <span class="badge">NEW MEMBER</span>
+              <h3>领取资格登记</h3>
+            </div>
+            <label>
+              注册会员账号
+              <input
+                id="memberName"
+                name="memberName"
+                type="text"
+                placeholder="请输入已注册会员账号"
+                autocomplete="username"
+                required
+              />
+            </label>
+            <label>
+              Telegram 用户名
+              <input
+                id="telegramName"
+                name="telegramName"
+                type="text"
+                placeholder="@telegram"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="spin-button" id="spinButton" type="submit">旋转转盘</button>
+            <p class="spin-message" id="spinMessage" role="status" aria-live="polite">
+              完成登记后即可开启礼金转盘，可中奖池为 288U、588U、888U。
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section class="winners-section" aria-labelledby="video-title">
+        <div class="section-heading">
+          <p class="eyebrow">VIDEO PART</p>
+          <h2 id="video-title">中奖视频</h2>
+          <p>用于展示会员中奖回放与礼金派发动态。</p>
+        </div>
+        <div class="video-grid">
+          <div class="video-frame" aria-label="Winning video preview">
+            <div class="video-topline">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="play-button" aria-hidden="true">▶</div>
+            <div class="video-caption">
+              <strong>TOP会员实时中奖回放</strong>
+              <small>888U 礼金派发中</small>
+            </div>
+          </div>
+          <div class="winner-feed" aria-label="Recent winners">
+            <h3>最新领奖</h3>
+            <ul>
+              <li><span>@li***88</span><strong>888U</strong></li>
+              <li><span>@win***top</span><strong>588U</strong></li>
+              <li><span>@vip***26</span><strong>288U</strong></li>
+              <li><span>@gold***9</span><strong>888U</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-section" aria-labelledby="intro-title">
+        <div class="section-heading">
+          <p class="eyebrow">COMPANY INTRODUCTION</p>
+          <h2 id="intro-title">实力场馆，尊贵体验</h2>
+          <p>
+            汇聚真人视讯、电子游艺、体育赛事、棋牌竞技与高端 VIP 服务，为玩家打造稳定、流畅、值得信赖的娱乐平台。
+          </p>
+        </div>
+        <div class="game-types" aria-label="Game types">
+          <article>
+            <span>01</span>
+            <h3>真人视讯</h3>
+            <p>百家乐、龙虎、轮盘，高清互动开局。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>电子游艺</h3>
+            <p>热门老虎机与主题大奖池随时开启。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>体育赛事</h3>
+            <p>覆盖全球热门联赛，盘口丰富稳定。</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>棋牌竞技</h3>
+            <p>经典玩法与快速桌台满足不同节奏。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow">SITE BUTTON CONTACT</p>
+          <h2 id="contact-title">联系领奖专员</h2>
+          <p>提交中奖信息后，专员将通过 Telegram 或 WhatsApp 协助核实与派发。</p>
+        </div>
+        <div class="contact-actions">
+          <a href="https://t.me/" target="_blank" rel="noreferrer" class="telegram" aria-label="Contact prize specialist on Telegram">Telegram 专员</a>
+          <a href="https://wa.me/" target="_blank" rel="noreferrer" class="whatsapp" aria-label="Contact prize specialist on WhatsApp">WhatsApp 专员</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
