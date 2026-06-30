@@ -17,6 +17,7 @@ const videoSlides = Array.from(document.querySelectorAll(".video-slide"));
 const videoDots = Array.from(document.querySelectorAll(".video-carousel-dots button"));
 const previousVideo = document.querySelector(".video-carousel-control.previous");
 const nextVideo = document.querySelector(".video-carousel-control.next");
+const winnersSection = document.querySelector(".winners-section");
 const loginButton = document.querySelector("#loginButton");
 const winnerList = document.querySelector("#winnerList");
 const winnerCount = document.querySelector("#winnerCount");
@@ -39,6 +40,7 @@ let activeTrackIndex = 0;
 let carouselTimer;
 let slides = originalSlides;
 let activeVideo = 0;
+let isVideoSectionActive = false;
 const carouselDelay = 3800;
 const winnerDelay = 2400;
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -457,19 +459,55 @@ function showVideo(index) {
   }
 
   activeVideo = ((index % videoSlides.length) + videoSlides.length) % videoSlides.length;
+  const previousIndex = (activeVideo - 1 + videoSlides.length) % videoSlides.length;
+  const nextIndex = (activeVideo + 1) % videoSlides.length;
 
   videoSlides.forEach((video, videoIndex) => {
     const isActive = videoIndex === activeVideo;
+    const isBefore = videoIndex === previousIndex;
+    const isAfter = videoIndex === nextIndex;
     video.classList.toggle("is-active", isActive);
+    video.classList.toggle("is-before", isBefore && !isActive);
+    video.classList.toggle("is-after", isAfter && !isActive);
     video.setAttribute("aria-hidden", String(!isActive));
 
     if (!isActive) {
       video.pause();
+      video.currentTime = 0;
     }
   });
 
   videoDots.forEach((dot, dotIndex) => {
     dot.classList.toggle("is-active", dotIndex === activeVideo);
+  });
+
+  if (isVideoSectionActive) {
+    playActiveVideo();
+  }
+}
+
+function playActiveVideo() {
+  const activeSlide = videoSlides[activeVideo];
+
+  if (!activeSlide) {
+    return;
+  }
+
+  activeSlide.muted = false;
+  activeSlide.volume = 1;
+  const playAttempt = activeSlide.play();
+
+  if (playAttempt) {
+    playAttempt.catch(() => {
+      activeSlide.muted = true;
+      activeSlide.play().catch(() => {});
+    });
+  }
+}
+
+function pauseVideoCarousel() {
+  videoSlides.forEach((video) => {
+    video.pause();
   });
 }
 
@@ -489,6 +527,34 @@ if (videoSlides.length) {
       showVideo(index);
     });
   });
+
+  videoSlides.forEach((video) => {
+    video.addEventListener("ended", () => {
+      if (video.classList.contains("is-active")) {
+        showVideo(activeVideo + 1);
+      }
+    });
+  });
+
+  if ("IntersectionObserver" in window && winnersSection) {
+    const videoObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVideoSectionActive = entry.isIntersecting;
+
+        if (isVideoSectionActive) {
+          playActiveVideo();
+        } else {
+          pauseVideoCarousel();
+        }
+      },
+      { threshold: 0.45 }
+    );
+
+    videoObserver.observe(winnersSection);
+  } else {
+    isVideoSectionActive = true;
+    playActiveVideo();
+  }
 }
 
 loginButton?.addEventListener("click", (event) => {
