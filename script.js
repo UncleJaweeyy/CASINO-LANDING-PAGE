@@ -17,6 +17,9 @@ const videoSlides = Array.from(document.querySelectorAll(".video-slide"));
 const videoDots = Array.from(document.querySelectorAll(".video-carousel-dots button"));
 const winnersSection = document.querySelector(".winners-section");
 const loginButton = document.querySelector("#loginButton");
+const specialistButton = document.querySelector("#specialistButton");
+const contactSection = document.querySelector("#contact");
+const languageSelect = document.querySelector("#languageSelect");
 const winnerList = document.querySelector("#winnerList");
 const winnerCount = document.querySelector("#winnerCount");
 
@@ -69,6 +72,317 @@ const mockWinnerSeeds = [
   "jay",
 ];
 let mockWinners = [];
+let currentLanguage = "zh";
+
+const translations = {
+  en: {
+    pageTitle: "TOP Welcome Gift | 888U Spin Bonus",
+    navHome: "Home",
+    navSpecialist: "Prize Specialist: TOP Plan",
+    navLogin: "Login",
+    heroEyebrow: "TOP WELCOME BONUS",
+    heroTitle: "TOP Welcome Gift, 888U Spin Bonus Awaits",
+    heroCopy:
+      "New members unlock an exclusive prize wheel. Enter your details and start with live casino, slots, sports, and cards in one place.",
+    heroPrimary: "Spin Now",
+    heroSecondary: "Contact Specialist",
+    heroStatPrize: "Grand Bonus",
+    heroStatNoLow: "Skip Low Rewards",
+    heroStatService: "Specialist Service",
+    spinTitle: "WINBOX Bonus Wheel",
+    spinSubtitle:
+      "Three exclusive spins for new members. The final spin goes straight for the 888U grand prize.",
+    wheelRetry: "Try Again",
+    newMember: "NEW MEMBER",
+    formTitle: "Claim Eligibility",
+    chanceDefault: "Three chances. Grand prize pending.",
+    chanceTwo: "Try again. The grand prize is getting closer.",
+    chanceOne: "Final spin. Go for the top prize.",
+    chanceLocked: "Grand prize locked.",
+    chanceCount: "{count} left",
+    memberLabel: "Registered Member Account",
+    memberPlaceholder: "Enter your registered member account",
+    telegramLabel: "Telegram Username",
+    telegramPlaceholder: "@telegram",
+    spinButton: "Spin the Wheel",
+    spinning: "Spinning",
+    tryAgainButton: "Try Again",
+    finalSpinButton: "Final Spin",
+    prizeLockedButton: "Grand Prize Locked",
+    spinInitialMessage: "Complete registration details to unlock 3 spins toward the grand prize.",
+    missingFields: "Please enter your registered member account and Telegram username first.",
+    completedMessage: "This round of 3 chances is complete. Please contact a prize specialist to verify the grand prize.",
+    matchingPrefix: "Member ",
+    matchingSuffix: " is matching a special bonus...",
+    winPrefix: "Congratulations ",
+    winMiddle: " won the top bonus ",
+    winSuffix: "! Please use ",
+    winContact: " to contact a prize specialist for verification.",
+    retryPrefix: "Try again",
+    retryMiddle: "! You still have ",
+    retrySuffix: " chance(s) left. The grand prize is unlocking.",
+    videoTitle: "Winning Videos",
+    videoSubtitle:
+      "Fresh bonus highlights keep rolling. Watch how others take home 888U and claim the next spotlight.",
+    latestClaim: "Latest Award Claim",
+    liveBadge: "LIVE",
+    introTitle: "Premium Venues, VIP Experience",
+    introSubtitle:
+      "Explore live casino, slots, sports, card games, and premium VIP service in a smooth, stable, trusted entertainment platform.",
+    gameLiveTitle: "Live Casino",
+    gameLiveDesc: "Baccarat, dragon tiger, and roulette with crisp live interaction.",
+    gameSlotsTitle: "Slots",
+    gameSlotsDesc: "Popular slots and themed jackpots are ready whenever you are.",
+    gameSportsTitle: "Sports",
+    gameSportsDesc: "Global top leagues with rich markets and steady lines.",
+    gameCardsTitle: "Cards & Tables",
+    gameCardsDesc: "Classic games and fast tables for every playing rhythm.",
+    contactTitle: "Contact Prize Specialist",
+    contactSubtitle:
+      "After submitting your winning details, a specialist will help verify and distribute rewards through Telegram or WhatsApp.",
+    telegramSpecialist: "Telegram Specialist",
+    whatsappSpecialist: "WhatsApp Specialist",
+    justClaimed: "Just claimed",
+    minutesAgo: "{count} min ago",
+  },
+  zh: {
+    pageTitle: "TOP 新手豪礼 | 转盘礼金 888U",
+    navHome: "主页",
+    navSpecialist: "领奖专员：TOP企划",
+    navLogin: "登录",
+    heroEyebrow: "TOP 新手礼遇",
+    heroTitle: "TOP新手豪礼，转盘礼金888U，豪礼相迎",
+    heroCopy: "注册即享专属转盘，输入会员信息后开启豪华礼金。真人、电子、体育、棋牌一站式开局。",
+    heroPrimary: "立即抽奖",
+    heroSecondary: "联系领奖专员",
+    heroStatPrize: "最高礼金",
+    heroStatNoLow: "避开低奖",
+    heroStatService: "专员服务",
+    spinTitle: "WINBOX 豪礼转盘",
+    spinSubtitle: "新会员专属三连抽，最后一转直冲 888U 大奖，填写资料马上开启好运。",
+    wheelRetry: "再试一次",
+    newMember: "新会员",
+    formTitle: "领取资格登记",
+    chanceDefault: "三次机会，大奖待解锁",
+    chanceTwo: "再试一次，大奖接近中",
+    chanceOne: "最后一次，冲刺最高奖",
+    chanceLocked: "大奖已锁定",
+    chanceCount: "剩余 {count} 次",
+    memberLabel: "注册会员账号",
+    memberPlaceholder: "请输入已注册会员账号",
+    telegramLabel: "Telegram 用户名",
+    telegramPlaceholder: "@telegram",
+    spinButton: "旋转转盘",
+    spinning: "旋转中",
+    tryAgainButton: "再试一次",
+    finalSpinButton: "最后一转",
+    prizeLockedButton: "大奖已锁定",
+    spinInitialMessage: "完成登记后即可开启礼金转盘，共有 3 次冲刺大奖机会。",
+    missingFields: "请先填写注册会员账号与 Telegram 用户名。",
+    completedMessage: "本轮 3 次机会已完成，请联系领奖专员核实大奖。",
+    matchingPrefix: "会员 ",
+    matchingSuffix: " 正在匹配专属礼金...",
+    winPrefix: "恭喜 ",
+    winMiddle: " 抽中最高礼金 ",
+    winSuffix: "！请使用 ",
+    winContact: " 联系领奖专员核实。",
+    retryPrefix: "再试一次",
+    retryMiddle: "！还剩 ",
+    retrySuffix: " 机会，大奖正在解锁。",
+    videoTitle: "中奖视频",
+    videoSubtitle: "真实礼金高光持续更新，看看别人如何把 888U 带走，下一个高光席位等你来占。",
+    latestClaim: "最新领奖",
+    liveBadge: "实时",
+    introTitle: "实力场馆，尊贵体验",
+    introSubtitle:
+      "汇聚真人视讯、电子游艺、体育赛事、棋牌竞技与高端 VIP 服务，为玩家打造稳定、流畅、值得信赖的娱乐平台。",
+    gameLiveTitle: "真人视讯",
+    gameLiveDesc: "百家乐、龙虎、轮盘，高清互动开局。",
+    gameSlotsTitle: "电子游艺",
+    gameSlotsDesc: "热门老虎机与主题大奖池随时开启。",
+    gameSportsTitle: "体育赛事",
+    gameSportsDesc: "覆盖全球热门联赛，盘口丰富稳定。",
+    gameCardsTitle: "棋牌竞技",
+    gameCardsDesc: "经典玩法与快速桌台满足不同节奏。",
+    contactTitle: "联系领奖专员",
+    contactSubtitle: "提交中奖信息后，专员将通过 Telegram 或 WhatsApp 协助核实与派发。",
+    telegramSpecialist: "Telegram 专员",
+    whatsappSpecialist: "WhatsApp 专员",
+    justClaimed: "刚刚领取",
+    minutesAgo: "{count}分钟前",
+  },
+  vi: {
+    pageTitle: "TOP Quà Tân Thủ | Vòng Quay 888U",
+    navHome: "Trang chủ",
+    navSpecialist: "Chuyên viên nhận thưởng: TOP",
+    navLogin: "Đăng nhập",
+    heroEyebrow: "ƯU ĐÃI CHÀO MỪNG TOP",
+    heroTitle: "Quà tân thủ TOP, vòng quay thưởng 888U đang chờ",
+    heroCopy:
+      "Thành viên mới mở khóa vòng quay độc quyền. Nhập thông tin để bắt đầu với casino live, slot, thể thao và bài bàn.",
+    heroPrimary: "Quay ngay",
+    heroSecondary: "Liên hệ chuyên viên",
+    heroStatPrize: "Thưởng cao nhất",
+    heroStatNoLow: "Bỏ qua thưởng thấp",
+    heroStatService: "Hỗ trợ 24H",
+    spinTitle: "Vòng Quay Thưởng WINBOX",
+    spinSubtitle: "Ba lượt quay riêng cho thành viên mới. Lượt cuối nhắm thẳng giải lớn 888U.",
+    wheelRetry: "Thử lại",
+    newMember: "THÀNH VIÊN MỚI",
+    formTitle: "Đăng ký nhận thưởng",
+    chanceDefault: "Ba lượt quay, giải lớn đang chờ.",
+    chanceTwo: "Thử lại, giải lớn đang đến gần.",
+    chanceOne: "Lượt cuối, nhắm giải cao nhất.",
+    chanceLocked: "Giải lớn đã khóa.",
+    chanceCount: "Còn {count} lượt",
+    memberLabel: "Tài khoản thành viên đã đăng ký",
+    memberPlaceholder: "Nhập tài khoản thành viên đã đăng ký",
+    telegramLabel: "Tên Telegram",
+    telegramPlaceholder: "@telegram",
+    spinButton: "Quay thưởng",
+    spinning: "Đang quay",
+    tryAgainButton: "Thử lại",
+    finalSpinButton: "Lượt cuối",
+    prizeLockedButton: "Đã khóa giải lớn",
+    spinInitialMessage: "Hoàn tất thông tin để mở 3 lượt quay hướng đến giải lớn.",
+    missingFields: "Vui lòng nhập tài khoản thành viên và tên Telegram trước.",
+    completedMessage: "Bạn đã dùng hết 3 lượt. Hãy liên hệ chuyên viên để xác minh giải lớn.",
+    matchingPrefix: "Thành viên ",
+    matchingSuffix: " đang ghép thưởng đặc biệt...",
+    winPrefix: "Chúc mừng ",
+    winMiddle: " đã trúng thưởng cao nhất ",
+    winSuffix: "! Vui lòng dùng ",
+    winContact: " để liên hệ chuyên viên xác minh.",
+    retryPrefix: "Thử lại",
+    retryMiddle: "! Bạn còn ",
+    retrySuffix: " lượt, giải lớn đang mở khóa.",
+    videoTitle: "Video trúng thưởng",
+    videoSubtitle: "Khoảnh khắc nhận thưởng được cập nhật liên tục. Xem người khác mang 888U về và chiếm spotlight tiếp theo.",
+    latestClaim: "Nhận thưởng mới nhất",
+    liveBadge: "TRỰC TIẾP",
+    introTitle: "Sảnh cao cấp, trải nghiệm VIP",
+    introSubtitle:
+      "Khám phá live casino, slot, thể thao, bài bàn và dịch vụ VIP trong một nền tảng giải trí ổn định, mượt mà, đáng tin cậy.",
+    gameLiveTitle: "Live Casino",
+    gameLiveDesc: "Baccarat, rồng hổ và roulette với tương tác trực tiếp sắc nét.",
+    gameSlotsTitle: "Slot",
+    gameSlotsDesc: "Slot nổi bật và jackpot theo chủ đề luôn sẵn sàng.",
+    gameSportsTitle: "Thể thao",
+    gameSportsDesc: "Các giải đấu hàng đầu toàn cầu với kèo đa dạng và ổn định.",
+    gameCardsTitle: "Bài & Bàn",
+    gameCardsDesc: "Trò chơi kinh điển và bàn nhanh cho mọi nhịp chơi.",
+    contactTitle: "Liên hệ chuyên viên nhận thưởng",
+    contactSubtitle:
+      "Sau khi gửi thông tin trúng thưởng, chuyên viên sẽ hỗ trợ xác minh và phát thưởng qua Telegram hoặc WhatsApp.",
+    telegramSpecialist: "Chuyên viên Telegram",
+    whatsappSpecialist: "Chuyên viên WhatsApp",
+    justClaimed: "Vừa nhận",
+    minutesAgo: "{count} phút trước",
+  },
+  ms: {
+    pageTitle: "TOP Hadiah Ahli Baru | Bonus Putaran 888U",
+    navHome: "Laman Utama",
+    navSpecialist: "Pakar Hadiah: TOP",
+    navLogin: "Log Masuk",
+    heroEyebrow: "BONUS SELAMAT DATANG TOP",
+    heroTitle: "Hadiah Ahli Baru TOP, Bonus Putaran 888U Menanti",
+    heroCopy:
+      "Ahli baru membuka roda hadiah eksklusif. Masukkan maklumat anda dan mula bermain live casino, slot, sukan, serta permainan kad di satu tempat.",
+    heroPrimary: "Putar Sekarang",
+    heroSecondary: "Hubungi Pakar",
+    heroStatPrize: "Bonus Tertinggi",
+    heroStatNoLow: "Elak Hadiah Rendah",
+    heroStatService: "Servis Pakar 24J",
+    spinTitle: "Roda Bonus WINBOX",
+    spinSubtitle: "Tiga putaran eksklusif untuk ahli baru. Putaran terakhir terus menuju hadiah utama 888U.",
+    wheelRetry: "Cuba Lagi",
+    newMember: "AHLI BARU",
+    formTitle: "Kelayakan Tuntutan",
+    chanceDefault: "Tiga peluang. Hadiah utama sedang menanti.",
+    chanceTwo: "Cuba lagi. Hadiah utama semakin hampir.",
+    chanceOne: "Putaran terakhir. Sasar hadiah tertinggi.",
+    chanceLocked: "Hadiah utama dikunci.",
+    chanceCount: "Baki {count} kali",
+    memberLabel: "Akaun Ahli Berdaftar",
+    memberPlaceholder: "Masukkan akaun ahli berdaftar",
+    telegramLabel: "Nama Pengguna Telegram",
+    telegramPlaceholder: "@telegram",
+    spinButton: "Putar Roda",
+    spinning: "Sedang Berputar",
+    tryAgainButton: "Cuba Lagi",
+    finalSpinButton: "Putaran Terakhir",
+    prizeLockedButton: "Hadiah Utama Dikunci",
+    spinInitialMessage: "Lengkapkan maklumat untuk membuka 3 putaran menuju hadiah utama.",
+    missingFields: "Sila masukkan akaun ahli berdaftar dan nama pengguna Telegram dahulu.",
+    completedMessage: "Pusingan 3 peluang ini telah selesai. Sila hubungi pakar hadiah untuk mengesahkan hadiah utama.",
+    matchingPrefix: "Ahli ",
+    matchingSuffix: " sedang dipadankan dengan bonus istimewa...",
+    winPrefix: "Tahniah ",
+    winMiddle: " memenangi bonus tertinggi ",
+    winSuffix: "! Sila gunakan ",
+    winContact: " untuk menghubungi pakar hadiah bagi pengesahan.",
+    retryPrefix: "Cuba lagi",
+    retryMiddle: "! Anda masih ada ",
+    retrySuffix: " peluang. Hadiah utama sedang dibuka.",
+    videoTitle: "Video Kemenangan",
+    videoSubtitle:
+      "Sorotan bonus terkini sentiasa dikemas kini. Lihat cara pemain lain membawa pulang 888U dan rebut giliran sorotan seterusnya.",
+    latestClaim: "Tuntutan Hadiah Terkini",
+    liveBadge: "LANGSUNG",
+    introTitle: "Arena Premium, Pengalaman VIP",
+    introSubtitle:
+      "Terokai live casino, slot, sukan, permainan kad dan servis VIP premium dalam platform hiburan yang lancar, stabil dan dipercayai.",
+    gameLiveTitle: "Live Casino",
+    gameLiveDesc: "Baccarat, dragon tiger dan roulette dengan interaksi langsung yang jelas.",
+    gameSlotsTitle: "Slot",
+    gameSlotsDesc: "Slot popular dan jackpot bertema tersedia bila-bila masa.",
+    gameSportsTitle: "Sukan",
+    gameSportsDesc: "Liga utama global dengan pasaran lengkap dan odds stabil.",
+    gameCardsTitle: "Kad & Meja",
+    gameCardsDesc: "Permainan klasik dan meja pantas untuk setiap rentak permainan.",
+    contactTitle: "Hubungi Pakar Hadiah",
+    contactSubtitle:
+      "Selepas menghantar maklumat kemenangan, pakar akan membantu mengesahkan dan mengagihkan hadiah melalui Telegram atau WhatsApp.",
+    telegramSpecialist: "Pakar Telegram",
+    whatsappSpecialist: "Pakar WhatsApp",
+    justClaimed: "Baru dituntut",
+    minutesAgo: "{count} min lalu",
+  },
+};
+
+function t(key, replacements = {}) {
+  const template = translations[currentLanguage]?.[key] ?? translations.en[key] ?? key;
+  return Object.entries(replacements).reduce(
+    (text, [name, value]) => text.replaceAll(`{${name}}`, value),
+    template
+  );
+}
+
+function applyLanguage(language) {
+  currentLanguage = translations[language] ? language : "zh";
+  document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : currentLanguage;
+  document.title = t("pageTitle");
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    element.setAttribute("placeholder", t(element.dataset.i18nPlaceholder));
+  });
+
+  updateChanceMeter();
+  if (!isSpinning && !isPromoComplete) {
+    button.textContent = spinsUsed === 0 ? t("spinButton") : getNextButtonLabel();
+  } else if (isPromoComplete) {
+    button.textContent = t("prizeLockedButton");
+  }
+
+  if (mockWinners.length) {
+    refreshWinnerTimes();
+    renderWinnerFeed();
+  }
+}
 
 function normalizeDegrees(value) {
   return ((value % 360) + 360) % 360;
@@ -78,7 +392,7 @@ function pickRetryOutcome() {
   return {
     ...retrySlot,
     isWin: false,
-    label: "再试一次",
+    label: t("wheelRetry"),
   };
 }
 
@@ -98,7 +412,7 @@ function updateChanceMeter() {
   const chancesLeft = Math.max(3 - spinsUsed, 0);
 
   if (chanceCount) {
-    chanceCount.textContent = `剩余 ${chancesLeft} 次`;
+    chanceCount.textContent = t("chanceCount", { count: chancesLeft });
   }
 
   if (!chanceLabel) {
@@ -106,13 +420,13 @@ function updateChanceMeter() {
   }
 
   if (isPromoComplete) {
-    chanceLabel.textContent = "大奖已锁定";
+    chanceLabel.textContent = t("chanceLocked");
   } else if (chancesLeft === 1) {
-    chanceLabel.textContent = "最后一次，冲刺最高奖";
+    chanceLabel.textContent = t("chanceOne");
   } else if (chancesLeft === 2) {
-    chanceLabel.textContent = "再试一次，大奖接近中";
+    chanceLabel.textContent = t("chanceTwo");
   } else {
-    chanceLabel.textContent = "三次机会，大奖待解锁";
+    chanceLabel.textContent = t("chanceDefault");
   }
 }
 
@@ -120,10 +434,10 @@ function getNextButtonLabel() {
   const chancesLeft = Math.max(3 - spinsUsed, 0);
 
   if (chancesLeft <= 0) {
-    return "大奖已锁定";
+    return t("prizeLockedButton");
   }
 
-  return chancesLeft === 1 ? "最后一转" : "再试一次";
+  return chancesLeft === 1 ? t("finalSpinButton") : t("tryAgainButton");
 }
 
 function strongText(text) {
@@ -197,7 +511,11 @@ function createMaskedHandle(index) {
   return `@${seed}***${suffix}`;
 }
 
-function createMockWinner(index, timeLabel = `${index + 1}分钟前`) {
+function getWinnerTimeLabel(index) {
+  return index === 0 ? t("justClaimed") : t("minutesAgo", { count: Math.min(index + 1, 99) });
+}
+
+function createMockWinner(index, timeLabel = getWinnerTimeLabel(index)) {
   return {
     id: `${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
     name: createMaskedHandle(index),
@@ -250,7 +568,7 @@ function renderWinnerFeed(highlightNewest = false) {
 function refreshWinnerTimes() {
   mockWinners = mockWinners.map((winner, index) => ({
     ...winner,
-    time: index === 0 ? "刚刚领取" : `${Math.min(index + 1, 99)}分钟前`,
+    time: getWinnerTimeLabel(index),
   }));
 }
 
@@ -261,7 +579,7 @@ function syncWinnerTimeLabels() {
 
   const timeLabels = Array.from(winnerList.querySelectorAll(".winner-time"));
   timeLabels.forEach((timeLabel, index) => {
-    timeLabel.textContent = index === 0 ? "刚刚领取" : `${Math.min(index + 1, 99)}分钟前`;
+    timeLabel.textContent = getWinnerTimeLabel(index);
   });
 }
 
@@ -271,7 +589,7 @@ function addLiveWinner() {
   }
 
   const nextIndex = mockWinners.length + Math.floor(Math.random() * 1000);
-  mockWinners.unshift(createMockWinner(nextIndex, "刚刚领取"));
+  mockWinners.unshift(createMockWinner(nextIndex, t("justClaimed")));
   mockWinners = mockWinners.slice(0, 100);
   refreshWinnerTimes();
 
@@ -599,10 +917,32 @@ loginButton?.addEventListener("click", (event) => {
   window.open(loginUrl, "_blank", "noopener,noreferrer");
 });
 
+specialistButton?.addEventListener("click", () => {
+  if (!contactSection) {
+    return;
+  }
+
+  window.setTimeout(() => {
+    contactSection.classList.remove("is-guided");
+    contactSection.getBoundingClientRect();
+    contactSection.classList.add("is-guided");
+  }, 480);
+});
+
+contactSection?.addEventListener("animationend", (event) => {
+  if (event.animationName === "contactGuidePulse") {
+    contactSection.classList.remove("is-guided");
+  }
+});
+
 centerSpinButton?.addEventListener("click", spinFormFromCenter);
 
+languageSelect?.addEventListener("change", (event) => {
+  applyLanguage(event.target.value);
+});
+
+applyLanguage(languageSelect?.value || "zh");
 startWinnerFeed();
-updateChanceMeter();
 startIdleSpin();
 
 form.addEventListener("submit", (event) => {
@@ -616,13 +956,13 @@ form.addEventListener("submit", (event) => {
   const telegram = telegramName.value.trim().replace(/\s+/g, "");
 
   if (!member || !telegram) {
-    showMessage("请先填写注册会员账号与 Telegram 用户名。");
+    showMessage(t("missingFields"));
     form.reportValidity();
     return;
   }
 
   if (spinsUsed >= 3) {
-    showMessage("本轮 3 次机会已完成，请联系领奖专员核实大奖。");
+    showMessage(t("completedMessage"));
     return;
   }
 
@@ -638,8 +978,8 @@ form.addEventListener("submit", (event) => {
   if (centerSpinButton) {
     centerSpinButton.disabled = true;
   }
-  button.textContent = "旋转中";
-  showMessage("会员 ", strongText(member), " 正在匹配专属礼金...");
+  button.textContent = t("spinning");
+  showMessage(t("matchingPrefix"), strongText(member), t("matchingSuffix"));
 
   rotation += kickDegrees;
   wheel.style.transition = "transform 160ms linear";
@@ -663,16 +1003,16 @@ form.addEventListener("submit", (event) => {
       if (centerSpinButton) {
         centerSpinButton.disabled = true;
       }
-      button.textContent = "大奖已锁定";
+      button.textContent = t("prizeLockedButton");
       launchGoldRain();
       showMessage(
-        "恭喜 ",
+        t("winPrefix"),
         strongText(member),
-        " 抽中最高礼金 ",
+        t("winMiddle"),
         strongText("888U"),
-        "！请使用 ",
+        t("winSuffix"),
         strongText(normalizeTelegramName(telegram)),
-        " 联系领奖专员核实。"
+        t("winContact")
       );
       return;
     }
@@ -683,10 +1023,10 @@ form.addEventListener("submit", (event) => {
     }
     button.textContent = getNextButtonLabel();
     showMessage(
-      strongText("再试一次"),
-      "！还剩 ",
-      strongText(`${Math.max(3 - spinsUsed, 0)} 次`),
-      " 机会，大奖正在解锁。"
+      strongText(t("retryPrefix")),
+      t("retryMiddle"),
+      strongText(String(Math.max(3 - spinsUsed, 0))),
+      t("retrySuffix")
     );
     startIdleSpin();
   }, 4470);

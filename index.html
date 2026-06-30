@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TOP 新手豪礼 | 转盘礼金 888U</title>
+    <link rel="icon" type="image/png" href="assets/LOGO_icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,16 +17,25 @@
     <header class="topbar" aria-label="Site header">
       <a class="brand" href="#top" aria-label="TOP Casino">
         <span class="brand-mark">
-          <img src="assets/LOGO.png" alt="" />
-        </span>
-        <span>
-          <strong>WINBOX</strong>
-          <small>VIP CASINO</small>
+          <img src="assets/LOGO.png" alt="WINBOX VIP CASINO" />
         </span>
       </a>
       <nav class="top-actions" aria-label="Quick actions">
-        <a href="#top" class="home-button">主页</a>
-        <a href="#contact" class="planner">领奖专员：TOP企划</a>
+        <a href="#top" class="home-button icon-only" aria-label="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m4 10 8-7 8 7"></path>
+            <path d="M6 9v11h12V9"></path>
+            <path d="M10 20v-6h4v6"></path>
+          </svg>
+        </a>
+        <a href="#contact" class="planner icon-only" id="specialistButton" aria-label="Prize Specialist">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 12v8H4v-8"></path>
+            <path d="M2 7h20v5H2z"></path>
+            <path d="M12 7v13"></path>
+            <path d="M12 7H8.5a2.5 2.5 0 1 1 2.1-3.85L12 7Zm0 0h3.5a2.5 2.5 0 1 0-2.1-3.85L12 7Z"></path>
+          </svg>
+        </a>
         <a
           href="https://1xroll.my/?AgentCode=208393"
           class="login-button"
@@ -33,8 +43,21 @@
           data-login-url="https://1xroll.my/?AgentCode=208393"
           target="_blank"
           rel="noreferrer"
-          >登录</a
+          data-i18n="navLogin"
+          >Login</a
         >
+        <label class="language-switcher" aria-label="Choose language">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+          </svg>
+          <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="zh" selected>中文</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="ms">Bahasa Melayu</option>
+          </select>
+        </label>
       </nav>
     </header>
 
@@ -45,24 +68,24 @@
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <p class="eyebrow">TOP WELCOME BONUS</p>
-          <h1 id="hero-title">TOP新手豪礼，转盘礼金888U，豪礼相迎</h1>
-          <p class="hero-copy">
-            注册即享专属转盘，输入会员信息后开启豪华礼金。真人、电子、体育、棋牌一站式开局。
+          <p class="eyebrow" data-i18n="heroEyebrow">TOP WELCOME BONUS</p>
+          <h1 id="hero-title" data-i18n="heroTitle">TOP Welcome Gift, 888U Spin Bonus Awaits</h1>
+          <p class="hero-copy" data-i18n="heroCopy">
+            New members unlock an exclusive prize wheel. Enter your details and start with live casino, slots, sports, and cards in one place.
           </p>
           <div class="hero-cta">
-            <a href="#spin" class="primary-action">立即抽奖</a>
-            <a href="#contact" class="secondary-action">联系领奖专员</a>
+            <a href="#spin" class="primary-action" data-i18n="heroPrimary">Spin Now</a>
+            <a href="#contact" class="secondary-action" data-i18n="heroSecondary">Contact Specialist</a>
           </div>
           <div class="hero-stats" aria-label="Promotion highlights">
             <span>
-              <strong>888U</strong>最高礼金
+              <strong>888U</strong><span data-i18n="heroStatPrize">Grand Bonus</span>
             </span>
             <span>
-              <strong>100%</strong>避开低奖
+              <strong>100%</strong><span data-i18n="heroStatNoLow">Skip Low Rewards</span>
             </span>
             <span>
-              <strong>24H</strong>专员服务
+              <strong>24H</strong><span data-i18n="heroStatService">Specialist Service</span>
             </span>
           </div>
 
@@ -109,8 +132,8 @@
 
       <section id="spin" class="spin-section" aria-labelledby="spin-title">
         <div class="section-heading">
-          <h2 id="spin-title">WINBOX 豪礼转盘</h2>
-          <p>新会员专属三连抽，最后一转直冲 888U 大奖，填写资料马上开启好运。</p>
+          <h2 id="spin-title" data-i18n="spinTitle">WINBOX Bonus Wheel</h2>
+          <p data-i18n="spinSubtitle">Three exclusive spins for new members. The final spin goes straight for the 888U grand prize.</p>
         </div>
 
         <div class="spin-grid">
@@ -118,7 +141,7 @@
             <div class="wheel-shell">
               <div class="wheel-pointer" aria-hidden="true"></div>
               <div class="wheel" id="wheel" aria-label="Prize wheel">
-                <span style="--angle: 0deg; --counter-angle: 0deg">再试一次</span>
+                <span style="--angle: 0deg; --counter-angle: 0deg" data-i18n="wheelRetry">Try Again</span>
                 <span style="--angle: 32.727deg; --counter-angle: -32.727deg">38U</span>
                 <span style="--angle: 65.455deg; --counter-angle: -65.455deg">88U</span>
                 <span style="--angle: 98.182deg; --counter-angle: -98.182deg">108U</span>
@@ -131,53 +154,55 @@
                 <span style="--angle: 327.273deg; --counter-angle: -327.273deg">888U</span>
               </div>
               <button class="wheel-logo" id="centerSpinButton" type="button" aria-label="Spin the wheel">
-                <img src="assets/LOGO.png" alt="WINBOX" />
+                <img src="assets/LOGO_icon.png" alt="WINBOX" />
               </button>
             </div>
           </div>
 
           <form class="spin-panel" id="spinForm">
             <div class="panel-header">
-              <span class="badge">NEW MEMBER</span>
-              <h3>领取资格登记</h3>
+              <span class="badge" data-i18n="newMember">NEW MEMBER</span>
+              <h3 data-i18n="formTitle">Claim Eligibility</h3>
             </div>
             <div class="chance-meter" aria-label="Spin chances">
-              <span id="chanceLabel">三次机会，大奖待解锁</span>
-              <strong id="chanceCount">剩余 3 次</strong>
+              <span id="chanceLabel">Three chances. Grand prize pending.</span>
+              <strong id="chanceCount">3 left</strong>
             </div>
             <label>
-              注册会员账号
+              <span data-i18n="memberLabel">Registered Member Account</span>
               <input
                 id="memberName"
                 name="memberName"
                 type="text"
-                placeholder="请输入已注册会员账号"
+                placeholder="Enter your registered member account"
+                data-i18n-placeholder="memberPlaceholder"
                 autocomplete="username"
                 required
               />
             </label>
             <label>
-              Telegram 用户名
+              <span data-i18n="telegramLabel">Telegram Username</span>
               <input
                 id="telegramName"
                 name="telegramName"
                 type="text"
                 placeholder="@telegram"
+                data-i18n-placeholder="telegramPlaceholder"
                 autocomplete="off"
                 required
               />
             </label>
-            <button class="spin-button" id="spinButton" type="submit">旋转转盘</button>
-            <p class="spin-message" id="spinMessage" role="status" aria-live="polite">
-              完成登记后即可开启礼金转盘，共有 3 次冲刺大奖机会。
+            <button class="spin-button" id="spinButton" type="submit" data-i18n="spinButton">Spin the Wheel</button>
+            <p class="spin-message" id="spinMessage" role="status" aria-live="polite" data-i18n="spinInitialMessage">
+              Complete registration details to unlock 3 spins toward the grand prize.
             </p>
           </form>
         </div>
       </section>
       <section class="winners-section" aria-labelledby="video-title">
         <div class="section-heading">
-          <h2 id="video-title">中奖视频</h2>
-          <p>真实礼金高光持续更新，看看别人如何把 888U 带走，下一个高光席位等你来占。</p>
+          <h2 id="video-title" data-i18n="videoTitle">Winning Videos</h2>
+          <p data-i18n="videoSubtitle">Fresh bonus highlights keep rolling. Watch how others take home 888U and claim the next spotlight.</p>
         </div>
         <div class="video-grid">
           <div class="video-carousel" aria-label="Winning video carousel">
@@ -224,8 +249,8 @@
           <div class="winner-feed" aria-label="Recent winners">
             <div class="winner-feed-header">
               <div>
-                <span class="live-badge">LIVE</span>
-                <h3>最新领奖</h3>
+                <span class="live-badge" data-i18n="liveBadge">LIVE</span>
+                <h3 data-i18n="latestClaim">Latest Award Claim</h3>
               </div>
               <strong id="winnerCount">100+</strong>
             </div>
@@ -238,9 +263,9 @@
 
       <section class="intro-section" aria-labelledby="intro-title">
         <div class="section-heading">
-          <h2 id="intro-title">实力场馆，尊贵体验</h2>
-          <p>
-            汇聚真人视讯、电子游艺、体育赛事、棋牌竞技与高端 VIP 服务，为玩家打造稳定、流畅、值得信赖的娱乐平台。
+          <h2 id="intro-title" data-i18n="introTitle">Premium Venues, VIP Experience</h2>
+          <p data-i18n="introSubtitle">
+            Explore live casino, slots, sports, card games, and premium VIP service in a smooth, stable, trusted entertainment platform.
           </p>
         </div>
         <div class="game-types" aria-label="Game types">
@@ -254,8 +279,8 @@
               </svg>
             </span>
             <span>01</span>
-            <h3>真人视讯</h3>
-            <p>百家乐、龙虎、轮盘，高清互动开局。</p>
+            <h3 data-i18n="gameLiveTitle">Live Casino</h3>
+            <p data-i18n="gameLiveDesc">Baccarat, dragon tiger, and roulette with crisp live interaction.</p>
           </article>
           <article
             style="--accent: #baff00; --showcase-image: url('assets/show_case/show_case_02.png')"
@@ -270,8 +295,8 @@
               </svg>
             </span>
             <span>02</span>
-            <h3>电子游艺</h3>
-            <p>热门老虎机与主题大奖池随时开启。</p>
+            <h3 data-i18n="gameSlotsTitle">Slots</h3>
+            <p data-i18n="gameSlotsDesc">Popular slots and themed jackpots are ready whenever you are.</p>
           </article>
           <article
             style="--accent: #dfff66; --showcase-image: url('assets/show_case/show_case_03.png')"
@@ -283,8 +308,8 @@
               </svg>
             </span>
             <span>03</span>
-            <h3>体育赛事</h3>
-            <p>覆盖全球热门联赛，盘口丰富稳定。</p>
+            <h3 data-i18n="gameSportsTitle">Sports</h3>
+            <p data-i18n="gameSportsDesc">Global top leagues with rich markets and steady lines.</p>
           </article>
           <article
             style="--accent: #66ff9d; --showcase-image: url('assets/show_case/show_case_04.png')"
@@ -297,20 +322,31 @@
               </svg>
             </span>
             <span>04</span>
-            <h3>棋牌竞技</h3>
-            <p>经典玩法与快速桌台满足不同节奏。</p>
+            <h3 data-i18n="gameCardsTitle">Cards & Tables</h3>
+            <p data-i18n="gameCardsDesc">Classic games and fast tables for every playing rhythm.</p>
           </article>
         </div>
       </section>
 
       <section id="contact" class="contact-section" aria-labelledby="contact-title">
         <div>
-          <h2 id="contact-title">联系领奖专员</h2>
-          <p>提交中奖信息后，专员将通过 Telegram 或 WhatsApp 协助核实与派发。</p>
+          <h2 id="contact-title" data-i18n="contactTitle">Contact Prize Specialist</h2>
+          <p data-i18n="contactSubtitle">After submitting your winning details, a specialist will help verify and distribute rewards through Telegram or WhatsApp.</p>
         </div>
         <div class="contact-actions">
-          <a href="https://t.me/" target="_blank" rel="noreferrer" class="telegram" aria-label="Contact prize specialist on Telegram">Telegram 专员</a>
-          <a href="https://wa.me/" target="_blank" rel="noreferrer" class="whatsapp" aria-label="Contact prize specialist on WhatsApp">WhatsApp 专员</a>
+          <a href="https://t.me/" target="_blank" rel="noreferrer" class="telegram" aria-label="Contact prize specialist on Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M21 4 3 11.4l6.8 2.2L17 8l-5.4 6.8V20l3.3-3.5 4.2 3L21 4Z"></path>
+            </svg>
+            <span data-i18n="telegramSpecialist">Telegram Specialist</span>
+          </a>
+          <a href="https://wa.me/" target="_blank" rel="noreferrer" class="whatsapp" aria-label="Contact prize specialist on WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4.6 19.4 6 15.9a8 8 0 1 1 2.1 2.1l-3.5 1.4Z"></path>
+              <path d="M9.4 8.7c.2 3 2 4.8 5 5.9l1.3-1.3c.3-.3.8-.4 1.2-.2l1.4.6"></path>
+            </svg>
+            <span data-i18n="whatsappSpecialist">WhatsApp Specialist</span>
+          </a>
         </div>
       </section>
     </main>
