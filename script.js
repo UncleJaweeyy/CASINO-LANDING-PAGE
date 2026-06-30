@@ -15,8 +15,6 @@ const previousBanner = document.querySelector(".promo-carousel-control.previous"
 const nextBanner = document.querySelector(".promo-carousel-control.next");
 const videoSlides = Array.from(document.querySelectorAll(".video-slide"));
 const videoDots = Array.from(document.querySelectorAll(".video-carousel-dots button"));
-const previousVideo = document.querySelector(".video-carousel-control.previous");
-const nextVideo = document.querySelector(".video-carousel-control.next");
 const winnersSection = document.querySelector(".winners-section");
 const loginButton = document.querySelector("#loginButton");
 const winnerList = document.querySelector("#winnerList");
@@ -461,14 +459,20 @@ function showVideo(index) {
   activeVideo = ((index % videoSlides.length) + videoSlides.length) % videoSlides.length;
   const previousIndex = (activeVideo - 1 + videoSlides.length) % videoSlides.length;
   const nextIndex = (activeVideo + 1) % videoSlides.length;
+  const secondPreviousIndex = (activeVideo - 2 + videoSlides.length) % videoSlides.length;
+  const secondNextIndex = (activeVideo + 2) % videoSlides.length;
 
   videoSlides.forEach((video, videoIndex) => {
     const isActive = videoIndex === activeVideo;
     const isBefore = videoIndex === previousIndex;
     const isAfter = videoIndex === nextIndex;
+    const isFarBefore = videoIndex === secondPreviousIndex;
+    const isFarAfter = videoIndex === secondNextIndex;
     video.classList.toggle("is-active", isActive);
     video.classList.toggle("is-before", isBefore && !isActive);
     video.classList.toggle("is-after", isAfter && !isActive);
+    video.classList.toggle("is-far-before", isFarBefore && !isActive);
+    video.classList.toggle("is-far-after", isFarAfter && !isActive);
     video.setAttribute("aria-hidden", String(!isActive));
 
     if (!isActive) {
@@ -513,14 +517,6 @@ function pauseVideoCarousel() {
 
 if (videoSlides.length) {
   showVideo(0);
-
-  previousVideo?.addEventListener("click", () => {
-    showVideo(activeVideo - 1);
-  });
-
-  nextVideo?.addEventListener("click", () => {
-    showVideo(activeVideo + 1);
-  });
 
   videoDots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
