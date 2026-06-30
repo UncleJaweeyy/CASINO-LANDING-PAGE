@@ -4,6 +4,7 @@ const button = document.querySelector("#spinButton");
 const centerSpinButton = document.querySelector("#centerSpinButton");
 const message = document.querySelector("#spinMessage");
 const memberName = document.querySelector("#memberName");
+const emailAddress = document.querySelector("#emailAddress");
 const telegramName = document.querySelector("#telegramName");
 const chanceLabel = document.querySelector("#chanceLabel");
 const chanceCount = document.querySelector("#chanceCount");
@@ -22,6 +23,10 @@ const contactSection = document.querySelector("#contact");
 const languageSelect = document.querySelector("#languageSelect");
 const winnerList = document.querySelector("#winnerList");
 const winnerCount = document.querySelector("#winnerCount");
+const winModal = document.querySelector("#winModal");
+const winAmountText = document.querySelector("#winAmountText");
+const modalTelegramButton = document.querySelector("#modalTelegramButton");
+const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
 
 const wheelSlots = ["retry", 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 const retrySlot = { prize: "retry", index: 0 };
@@ -47,6 +52,8 @@ let videoSwipeStartY = 0;
 let isVideoSwiping = false;
 const carouselDelay = 3800;
 const winnerDelay = 2400;
+const specialistTelegram = "jojaeisme";
+const specialistWhatsapp = "639073552782";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mockWinnerPrizes = [288, 588, 888, 288, 588, 888, 588, 288, 888, 588];
 const mockWinnerSeeds = [
@@ -102,6 +109,8 @@ const translations = {
     chanceCount: "{count} left",
     memberLabel: "Registered Member Account",
     memberPlaceholder: "Enter your registered member account",
+    emailLabel: "Email Address",
+    emailPlaceholder: "Enter your email address",
     telegramLabel: "Telegram Username",
     telegramPlaceholder: "@telegram",
     spinButton: "Spin the Wheel",
@@ -110,7 +119,7 @@ const translations = {
     finalSpinButton: "Final Spin",
     prizeLockedButton: "Grand Prize Locked",
     spinInitialMessage: "Complete registration details to unlock 3 spins toward the grand prize.",
-    missingFields: "Please enter your registered member account and Telegram username first.",
+    missingFields: "Please enter your member account, email address, and Telegram username first.",
     completedMessage: "This round of 3 chances is complete. Please contact a prize specialist to verify the grand prize.",
     matchingPrefix: "Member ",
     matchingSuffix: " is matching a special bonus...",
@@ -142,6 +151,14 @@ const translations = {
       "After submitting your winning details, a specialist will help verify and distribute rewards through Telegram or WhatsApp.",
     telegramSpecialist: "Telegram Specialist",
     whatsappSpecialist: "WhatsApp Specialist",
+    winModalBadge: "GRAND PRIZE",
+    winModalTitle: "Congratulations!",
+    winModalCopyPrefix: "You won",
+    winModalCopySuffix: "from the WINBOX bonus wheel.",
+    winModalSubcopy:
+      "Contact a prize specialist now. Your claim details will be attached automatically.",
+    claimMessage:
+      "Hello WINBOX Prize Specialist, I would like to claim my spin bonus. Member account: {member}. Email: {email}. Telegram: {telegram}. Prize amount: {amount}. Timestamp: {timestamp}. Please help verify and process my reward. Thank you.",
     justClaimed: "Just claimed",
     minutesAgo: "{count} min ago",
   },
@@ -170,6 +187,8 @@ const translations = {
     chanceCount: "剩余 {count} 次",
     memberLabel: "注册会员账号",
     memberPlaceholder: "请输入已注册会员账号",
+    emailLabel: "邮箱地址",
+    emailPlaceholder: "请输入邮箱地址",
     telegramLabel: "Telegram 用户名",
     telegramPlaceholder: "@telegram",
     spinButton: "旋转转盘",
@@ -178,7 +197,7 @@ const translations = {
     finalSpinButton: "最后一转",
     prizeLockedButton: "大奖已锁定",
     spinInitialMessage: "完成登记后即可开启礼金转盘，共有 3 次冲刺大奖机会。",
-    missingFields: "请先填写注册会员账号与 Telegram 用户名。",
+    missingFields: "请先填写注册会员账号、邮箱地址与 Telegram 用户名。",
     completedMessage: "本轮 3 次机会已完成，请联系领奖专员核实大奖。",
     matchingPrefix: "会员 ",
     matchingSuffix: " 正在匹配专属礼金...",
@@ -208,6 +227,13 @@ const translations = {
     contactSubtitle: "提交中奖信息后，专员将通过 Telegram 或 WhatsApp 协助核实与派发。",
     telegramSpecialist: "Telegram 专员",
     whatsappSpecialist: "WhatsApp 专员",
+    winModalBadge: "最高大奖",
+    winModalTitle: "恭喜中奖！",
+    winModalCopyPrefix: "您已赢得",
+    winModalCopySuffix: "WINBOX 豪礼转盘奖励。",
+    winModalSubcopy: "立即联系领奖专员，系统会自动附上您的领奖资料。",
+    claimMessage:
+      "您好 WINBOX 领奖专员，我想领取我的转盘礼金。会员账号：{member}。邮箱：{email}。Telegram：{telegram}。中奖金额：{amount}。时间：{timestamp}。请协助核实并处理奖励，谢谢。",
     justClaimed: "刚刚领取",
     minutesAgo: "{count}分钟前",
   },
@@ -237,6 +263,8 @@ const translations = {
     chanceCount: "Còn {count} lượt",
     memberLabel: "Tài khoản thành viên đã đăng ký",
     memberPlaceholder: "Nhập tài khoản thành viên đã đăng ký",
+    emailLabel: "Địa chỉ email",
+    emailPlaceholder: "Nhập địa chỉ email",
     telegramLabel: "Tên Telegram",
     telegramPlaceholder: "@telegram",
     spinButton: "Quay thưởng",
@@ -245,7 +273,7 @@ const translations = {
     finalSpinButton: "Lượt cuối",
     prizeLockedButton: "Đã khóa giải lớn",
     spinInitialMessage: "Hoàn tất thông tin để mở 3 lượt quay hướng đến giải lớn.",
-    missingFields: "Vui lòng nhập tài khoản thành viên và tên Telegram trước.",
+    missingFields: "Vui lòng nhập tài khoản thành viên, email và tên Telegram trước.",
     completedMessage: "Bạn đã dùng hết 3 lượt. Hãy liên hệ chuyên viên để xác minh giải lớn.",
     matchingPrefix: "Thành viên ",
     matchingSuffix: " đang ghép thưởng đặc biệt...",
@@ -276,6 +304,14 @@ const translations = {
       "Sau khi gửi thông tin trúng thưởng, chuyên viên sẽ hỗ trợ xác minh và phát thưởng qua Telegram hoặc WhatsApp.",
     telegramSpecialist: "Chuyên viên Telegram",
     whatsappSpecialist: "Chuyên viên WhatsApp",
+    winModalBadge: "GIẢI LỚN",
+    winModalTitle: "Chúc mừng!",
+    winModalCopyPrefix: "Bạn đã thắng",
+    winModalCopySuffix: "từ vòng quay thưởng WINBOX.",
+    winModalSubcopy:
+      "Liên hệ chuyên viên nhận thưởng ngay. Thông tin nhận thưởng sẽ được đính kèm tự động.",
+    claimMessage:
+      "Xin chào Chuyên viên nhận thưởng WINBOX, tôi muốn nhận bonus vòng quay. Tài khoản thành viên: {member}. Email: {email}. Telegram: {telegram}. Số tiền thưởng: {amount}. Thời gian: {timestamp}. Vui lòng hỗ trợ xác minh và xử lý phần thưởng. Cảm ơn.",
     justClaimed: "Vừa nhận",
     minutesAgo: "{count} phút trước",
   },
@@ -305,6 +341,8 @@ const translations = {
     chanceCount: "Baki {count} kali",
     memberLabel: "Akaun Ahli Berdaftar",
     memberPlaceholder: "Masukkan akaun ahli berdaftar",
+    emailLabel: "Alamat Emel",
+    emailPlaceholder: "Masukkan alamat emel",
     telegramLabel: "Nama Pengguna Telegram",
     telegramPlaceholder: "@telegram",
     spinButton: "Putar Roda",
@@ -313,7 +351,7 @@ const translations = {
     finalSpinButton: "Putaran Terakhir",
     prizeLockedButton: "Hadiah Utama Dikunci",
     spinInitialMessage: "Lengkapkan maklumat untuk membuka 3 putaran menuju hadiah utama.",
-    missingFields: "Sila masukkan akaun ahli berdaftar dan nama pengguna Telegram dahulu.",
+    missingFields: "Sila masukkan akaun ahli, alamat emel dan nama pengguna Telegram dahulu.",
     completedMessage: "Pusingan 3 peluang ini telah selesai. Sila hubungi pakar hadiah untuk mengesahkan hadiah utama.",
     matchingPrefix: "Ahli ",
     matchingSuffix: " sedang dipadankan dengan bonus istimewa...",
@@ -345,6 +383,14 @@ const translations = {
       "Selepas menghantar maklumat kemenangan, pakar akan membantu mengesahkan dan mengagihkan hadiah melalui Telegram atau WhatsApp.",
     telegramSpecialist: "Pakar Telegram",
     whatsappSpecialist: "Pakar WhatsApp",
+    winModalBadge: "HADIAH UTAMA",
+    winModalTitle: "Tahniah!",
+    winModalCopyPrefix: "Anda memenangi",
+    winModalCopySuffix: "daripada roda bonus WINBOX.",
+    winModalSubcopy:
+      "Hubungi pakar hadiah sekarang. Butiran tuntutan anda akan dilampirkan secara automatik.",
+    claimMessage:
+      "Hello Pakar Hadiah WINBOX, saya ingin menuntut bonus putaran saya. Akaun ahli: {member}. Emel: {email}. Telegram: {telegram}. Jumlah hadiah: {amount}. Masa: {timestamp}. Sila bantu sahkan dan proses hadiah saya. Terima kasih.",
     justClaimed: "Baru dituntut",
     minutesAgo: "{count} min lalu",
   },
@@ -381,6 +427,15 @@ function applyLanguage(language) {
   if (mockWinners.length) {
     refreshWinnerTimes();
     renderWinnerFeed();
+  }
+
+  const storedClaim = window.localStorage.getItem("winboxLatestClaim");
+  if (storedClaim) {
+    try {
+      updateClaimLinks(JSON.parse(storedClaim));
+    } catch {
+      window.localStorage.removeItem("winboxLatestClaim");
+    }
   }
 }
 
@@ -642,6 +697,81 @@ function launchGoldRain() {
     document.body.appendChild(coin);
     window.setTimeout(() => coin.remove(), 3000);
   }
+}
+
+function launchConfetti() {
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  const colors = ["#baff00", "#ffee5b", "#ffffff", "#66ff9d", "#37f46c"];
+
+  for (let i = 0; i < 72; i += 1) {
+    const confetti = document.createElement("span");
+    confetti.className = "confetti-piece";
+    confetti.style.left = `${Math.random() * 100}%`;
+    confetti.style.setProperty("--confetti-color", colors[i % colors.length]);
+    confetti.style.animationDelay = `${Math.random() * 0.8}s`;
+    confetti.style.animationDuration = `${2.4 + Math.random() * 1.8}s`;
+    confetti.style.transform = `rotate(${Math.random() * 180}deg)`;
+    document.body.appendChild(confetti);
+    window.setTimeout(() => confetti.remove(), 4700);
+  }
+}
+
+function createClaimDetails(amount, member, email, telegram) {
+  const timestamp = new Date().toISOString();
+
+  return {
+    member,
+    email,
+    telegram: normalizeTelegramName(telegram),
+    amount,
+    timestamp,
+  };
+}
+
+function buildClaimMessage(claim) {
+  return t("claimMessage", claim);
+}
+
+function storeClaimDetails(claim) {
+  window.localStorage.setItem("winboxLatestClaim", JSON.stringify(claim));
+}
+
+function updateClaimLinks(claim) {
+  const messageText = encodeURIComponent(buildClaimMessage(claim));
+
+  if (modalTelegramButton) {
+    modalTelegramButton.href = `https://t.me/${specialistTelegram}?text=${messageText}`;
+  }
+
+  if (modalWhatsappButton) {
+    modalWhatsappButton.href = `https://wa.me/${specialistWhatsapp}?text=${messageText}`;
+  }
+}
+
+function openWinModal(claim) {
+  if (!winModal) {
+    return;
+  }
+
+  if (winAmountText) {
+    winAmountText.textContent = claim.amount;
+  }
+
+  updateClaimLinks(claim);
+  winModal.hidden = false;
+  document.body.classList.add("modal-open");
+}
+
+function closeWinModal() {
+  if (!winModal) {
+    return;
+  }
+
+  winModal.hidden = true;
+  document.body.classList.remove("modal-open");
 }
 
 function getRealBannerIndex(index) {
@@ -935,6 +1065,18 @@ contactSection?.addEventListener("animationend", (event) => {
   }
 });
 
+winModal?.addEventListener("click", (event) => {
+  if (event.target.closest("[data-modal-close]")) {
+    closeWinModal();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && winModal && !winModal.hidden) {
+    closeWinModal();
+  }
+});
+
 centerSpinButton?.addEventListener("click", spinFormFromCenter);
 
 languageSelect?.addEventListener("change", (event) => {
@@ -953,9 +1095,10 @@ form.addEventListener("submit", (event) => {
   }
 
   const member = memberName.value.trim();
+  const email = emailAddress.value.trim();
   const telegram = telegramName.value.trim().replace(/\s+/g, "");
 
-  if (!member || !telegram) {
+  if (!member || !email || !telegram) {
     showMessage(t("missingFields"));
     form.reportValidity();
     return;
@@ -999,21 +1142,26 @@ form.addEventListener("submit", (event) => {
     updateChanceMeter();
 
     if (selected.isWin) {
+      const amount = `${selected.prize}U`;
+      const claim = createClaimDetails(amount, member, email, telegram);
+      storeClaimDetails(claim);
       button.disabled = true;
       if (centerSpinButton) {
         centerSpinButton.disabled = true;
       }
       button.textContent = t("prizeLockedButton");
       launchGoldRain();
+      launchConfetti();
       showMessage(
         t("winPrefix"),
         strongText(member),
         t("winMiddle"),
-        strongText("888U"),
+        strongText(amount),
         t("winSuffix"),
-        strongText(normalizeTelegramName(telegram)),
+        strongText(claim.telegram),
         t("winContact")
       );
+      openWinModal(claim);
       return;
     }
 
