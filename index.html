@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -15,22 +15,33 @@
   <body>
     <header class="topbar" aria-label="Site header">
       <a class="brand" href="#top" aria-label="TOP Casino">
-        <span class="brand-mark">W</span>
+        <span class="brand-mark">
+          <img src="assets/winbox_logo.png" alt="" />
+        </span>
         <span>
           <strong>WINBOX</strong>
           <small>VIP CASINO</small>
         </span>
       </a>
       <nav class="top-actions" aria-label="Quick actions">
+        <a href="#top" class="home-button">主页</a>
         <a href="#contact" class="planner">领奖专员：TOP企划</a>
-        <a href="#spin" class="login-button">登录</a>
+        <a
+          href="https://winbox.go2u.cc/WINBOX/Register/Index?TPAxvP/Ku8/02LljkCWSrSh+YNNzoD3NPRr06qibPhue+tDBmMOCGPV34TD7qzqFVsImxCwXkRJ7OCmpLaay+s922Cg6Aymm5Y5Pbzrqv1oDiMzAN41eFM9EgUJsyI41auaetC3KTC16gFj/6HseEV3VR4JvgU+pzOf0Zo+SbMw3g1RPlnQiRgmTM9ek1cmYzOokMK4LaWW4V+rP/y8XIixRZ6rpxY2D"
+          class="login-button"
+          id="loginButton"
+          data-login-url="https://winbox.go2u.cc/WINBOX/Register/Index?TPAxvP/Ku8/02LljkCWSrSh+YNNzoD3NPRr06qibPhue+tDBmMOCGPV34TD7qzqFVsImxCwXkRJ7OCmpLaay+s922Cg6Aymm5Y5Pbzrqv1oDiMzAN41eFM9EgUJsyI41auaetC3KTC16gFj/6HseEV3VR4JvgU+pzOf0Zo+SbMw3g1RPlnQiRgmTM9ek1cmYzOokMK4LaWW4V+rP/y8XIixRZ6rpxY2D"
+          target="_blank"
+          rel="noreferrer"
+          >登录</a
+        >
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-media" aria-hidden="true">
-          <img src="assets/casino-hero.png" alt="" />
+          <img src="assets/casino-hero2.png" alt="" />
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -48,14 +59,52 @@
             <span><strong>100%</strong>避开低奖</span>
             <span><strong>24H</strong>专员服务</span>
           </div>
+
+          <div class="promo-carousel" aria-label="Promotional banners">
+            <div class="promo-carousel-viewport">
+              <div class="promo-carousel-track">
+                <img
+                  class="promo-slide is-active"
+                  src="assets/HERO_BANNERS_CAROUSELS/banner01.png"
+                  alt="WINBOX promotional banner 1"
+                />
+                <img
+                  class="promo-slide"
+                  src="assets/HERO_BANNERS_CAROUSELS/banner02.png"
+                  alt="WINBOX promotional banner 2"
+                />
+                <img
+                  class="promo-slide"
+                  src="assets/HERO_BANNERS_CAROUSELS/banner03.png"
+                  alt="WINBOX promotional banner 3"
+                />
+                <img
+                  class="promo-slide"
+                  src="assets/HERO_BANNERS_CAROUSELS/banner04.png"
+                  alt="WINBOX promotional banner 4"
+                />
+              </div>
+            </div>
+            <button class="promo-carousel-control previous" type="button" aria-label="Previous banner">
+              ‹
+            </button>
+            <button class="promo-carousel-control next" type="button" aria-label="Next banner">
+              ›
+            </button>
+            <div class="promo-carousel-dots" aria-label="Choose banner">
+              <button class="is-active" type="button" aria-label="Show banner 1"></button>
+              <button type="button" aria-label="Show banner 2"></button>
+              <button type="button" aria-label="Show banner 3"></button>
+              <button type="button" aria-label="Show banner 4"></button>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="spin" class="spin-section" aria-labelledby="spin-title">
         <div class="section-heading">
-          <p class="eyebrow">SPIN PART</p>
           <h2 id="spin-title">WINBOX 豪礼转盘</h2>
-          <p>登记会员与 Telegram 用户名后开启抽奖；38U、88U、108U、188U 为展示位，不会被抽中。</p>
+          <p>新会员专属三连抽，最后一转直冲 888U 大奖，填写资料马上开启好运。</p>
         </div>
 
         <div class="spin-grid">
@@ -63,18 +112,21 @@
             <div class="wheel-shell">
               <div class="wheel-pointer" aria-hidden="true"></div>
               <div class="wheel" id="wheel" aria-label="Prize wheel">
-                <span style="--angle: 0deg; --counter-angle: 0deg">38U</span>
-                <span style="--angle: 36deg; --counter-angle: -36deg">88U</span>
-                <span style="--angle: 72deg; --counter-angle: -72deg">108U</span>
-                <span style="--angle: 108deg; --counter-angle: -108deg">188U</span>
-                <span style="--angle: 144deg; --counter-angle: -144deg">288U</span>
-                <span style="--angle: 180deg; --counter-angle: -180deg">588U</span>
-                <span style="--angle: 216deg; --counter-angle: -216deg">888U</span>
-                <span style="--angle: 252deg; --counter-angle: -252deg">288U</span>
-                <span style="--angle: 288deg; --counter-angle: -288deg">588U</span>
-                <span style="--angle: 324deg; --counter-angle: -324deg">888U</span>
-                <div class="wheel-logo">WINBOX</div>
+                <span style="--angle: 0deg; --counter-angle: 0deg">再试一次</span>
+                <span style="--angle: 32.727deg; --counter-angle: -32.727deg">38U</span>
+                <span style="--angle: 65.455deg; --counter-angle: -65.455deg">88U</span>
+                <span style="--angle: 98.182deg; --counter-angle: -98.182deg">108U</span>
+                <span style="--angle: 130.909deg; --counter-angle: -130.909deg">188U</span>
+                <span style="--angle: 163.636deg; --counter-angle: -163.636deg">288U</span>
+                <span style="--angle: 196.364deg; --counter-angle: -196.364deg">588U</span>
+                <span style="--angle: 229.091deg; --counter-angle: -229.091deg">888U</span>
+                <span style="--angle: 261.818deg; --counter-angle: -261.818deg">288U</span>
+                <span style="--angle: 294.545deg; --counter-angle: -294.545deg">588U</span>
+                <span style="--angle: 327.273deg; --counter-angle: -327.273deg">888U</span>
               </div>
+              <button class="wheel-logo" id="centerSpinButton" type="button" aria-label="Spin the wheel">
+                <img src="assets/winbox_logo.png" alt="WINBOX" />
+              </button>
             </div>
           </div>
 
@@ -82,6 +134,10 @@
             <div class="panel-header">
               <span class="badge">NEW MEMBER</span>
               <h3>领取资格登记</h3>
+            </div>
+            <div class="chance-meter" aria-label="Spin chances">
+              <span id="chanceLabel">三次机会，大奖待解锁</span>
+              <strong id="chanceCount">剩余 3 次</strong>
             </div>
             <label>
               注册会员账号
@@ -107,46 +163,91 @@
             </label>
             <button class="spin-button" id="spinButton" type="submit">旋转转盘</button>
             <p class="spin-message" id="spinMessage" role="status" aria-live="polite">
-              完成登记后即可开启礼金转盘，可中奖池为 288U、588U、888U。
+              完成登记后即可开启礼金转盘，共有 3 次冲刺大奖机会。
             </p>
           </form>
         </div>
       </section>
-
       <section class="winners-section" aria-labelledby="video-title">
         <div class="section-heading">
-          <p class="eyebrow">VIDEO PART</p>
           <h2 id="video-title">中奖视频</h2>
-          <p>用于展示会员中奖回放与礼金派发动态。</p>
+          <p>真实礼金高光持续更新，看看别人如何把 888U 带走，下一个高光席位等你来占。</p>
         </div>
         <div class="video-grid">
-          <div class="video-frame" aria-label="Winning video preview">
-            <div class="video-topline">
-              <span></span>
-              <span></span>
-              <span></span>
+          <div class="video-carousel" aria-label="Winning video carousel">
+            <div class="video-carousel-viewport">
+              <video
+                class="video-slide is-active"
+                src="assets/videos/video01.mp4"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <video
+                class="video-slide"
+                src="assets/videos/video02.mp4"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <video
+                class="video-slide"
+                src="assets/videos/video03.mp4"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <video
+                class="video-slide"
+                src="assets/videos/video04.mp4"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <video
+                class="video-slide"
+                src="assets/videos/video05.mp4"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
             </div>
-            <div class="play-button" aria-hidden="true">▶</div>
-            <div class="video-caption">
-              <strong>TOP会员实时中奖回放</strong>
-              <small>888U 礼金派发中</small>
+            <button class="video-carousel-control previous" type="button" aria-label="Previous video">
+              ‹
+            </button>
+            <button class="video-carousel-control next" type="button" aria-label="Next video">
+              ›
+            </button>
+            <div class="video-carousel-dots" aria-label="Choose video">
+              <button class="is-active" type="button" aria-label="Show video 1"></button>
+              <button type="button" aria-label="Show video 2"></button>
+              <button type="button" aria-label="Show video 3"></button>
+              <button type="button" aria-label="Show video 4"></button>
+              <button type="button" aria-label="Show video 5"></button>
             </div>
           </div>
           <div class="winner-feed" aria-label="Recent winners">
-            <h3>最新领奖</h3>
-            <ul>
-              <li><span>@li***88</span><strong>888U</strong></li>
-              <li><span>@win***top</span><strong>588U</strong></li>
-              <li><span>@vip***26</span><strong>288U</strong></li>
-              <li><span>@gold***9</span><strong>888U</strong></li>
-            </ul>
+            <div class="winner-feed-header">
+              <div>
+                <span class="live-badge">LIVE</span>
+                <h3>最新领奖</h3>
+              </div>
+              <strong id="winnerCount">100+</strong>
+            </div>
+            <div class="winner-ticker" aria-live="polite">
+              <ul id="winnerList"></ul>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="intro-section" aria-labelledby="intro-title">
         <div class="section-heading">
-          <p class="eyebrow">COMPANY INTRODUCTION</p>
           <h2 id="intro-title">实力场馆，尊贵体验</h2>
           <p>
             汇聚真人视讯、电子游艺、体育赛事、棋牌竞技与高端 VIP 服务，为玩家打造稳定、流畅、值得信赖的娱乐平台。
@@ -178,7 +279,6 @@
 
       <section id="contact" class="contact-section" aria-labelledby="contact-title">
         <div>
-          <p class="eyebrow">SITE BUTTON CONTACT</p>
           <h2 id="contact-title">联系领奖专员</h2>
           <p>提交中奖信息后，专员将通过 Telegram 或 WhatsApp 协助核实与派发。</p>
         </div>
