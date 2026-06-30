@@ -434,9 +434,15 @@ h1 {
 
 .section-heading h2,
 .contact-section h2 {
-  color: #f3ffe1;
+  position: relative;
+  display: inline-block;
+  color: var(--gold);
   font-size: 42px;
   line-height: 1.12;
+  text-shadow:
+    0 0 12px rgba(186, 255, 0, 0.42),
+    0 0 30px rgba(69, 248, 131, 0.24),
+    0 4px 20px rgba(0, 0, 0, 0.45);
 }
 
 .section-heading p:last-child,
@@ -731,6 +737,13 @@ h1 {
   background: transparent;
   border: 0;
   box-shadow: none;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.video-carousel:active {
+  cursor: grabbing;
 }
 
 .video-carousel-viewport {

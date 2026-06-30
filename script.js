@@ -39,6 +39,9 @@ let carouselTimer;
 let slides = originalSlides;
 let activeVideo = 0;
 let isVideoSectionActive = false;
+let videoSwipeStartX = 0;
+let videoSwipeStartY = 0;
+let isVideoSwiping = false;
 const carouselDelay = 3800;
 const winnerDelay = 2400;
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -515,6 +518,32 @@ function pauseVideoCarousel() {
   });
 }
 
+function startVideoSwipe(event) {
+  if (event.pointerType === "mouse" && event.button !== 0) {
+    return;
+  }
+
+  videoSwipeStartX = event.clientX;
+  videoSwipeStartY = event.clientY;
+  isVideoSwiping = true;
+}
+
+function finishVideoSwipe(event) {
+  if (!isVideoSwiping) {
+    return;
+  }
+
+  const deltaX = event.clientX - videoSwipeStartX;
+  const deltaY = event.clientY - videoSwipeStartY;
+  isVideoSwiping = false;
+
+  if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) {
+    return;
+  }
+
+  showVideo(activeVideo + (deltaX < 0 ? 1 : -1));
+}
+
 if (videoSlides.length) {
   showVideo(0);
 
@@ -522,6 +551,12 @@ if (videoSlides.length) {
     dot.addEventListener("click", () => {
       showVideo(index);
     });
+  });
+
+  document.querySelector(".video-carousel")?.addEventListener("pointerdown", startVideoSwipe);
+  document.querySelector(".video-carousel")?.addEventListener("pointerup", finishVideoSwipe);
+  document.querySelector(".video-carousel")?.addEventListener("pointercancel", () => {
+    isVideoSwiping = false;
   });
 
   videoSlides.forEach((video) => {
