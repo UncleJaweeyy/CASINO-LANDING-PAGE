@@ -1,3 +1,5 @@
+import { loadPublicSettings, redeemEligibility, validateEligibility } from "./firebase-client.js";
+
 const wheel = document.querySelector("#wheel");
 const form = document.querySelector("#spinForm");
 const button = document.querySelector("#spinButton");
@@ -27,6 +29,8 @@ const winModal = document.querySelector("#winModal");
 const winAmountText = document.querySelector("#winAmountText");
 const modalTelegramButton = document.querySelector("#modalTelegramButton");
 const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
+const contactTelegramButton = document.querySelector("#contactTelegramButton");
+const contactWhatsappButton = document.querySelector("#contactWhatsappButton");
 
 const wheelSlots = ["retry", 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 const retrySlot = { prize: "retry", index: 0 };
@@ -52,9 +56,9 @@ let videoSwipeStartY = 0;
 let isVideoSwiping = false;
 const carouselDelay = 3800;
 const winnerDelay = 2400;
-const specialistTelegram = "jojaeisme";
-const specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
-const specialistWhatsapp = "639073552782";
+let specialistTelegram = "kaiye9998";
+let specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
+let specialistWhatsapp = "";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mockWinnerPrizes = [38, 88, 108, 188, 88, 108, 38, 188, 108, 88];
 const mockWinnerSeeds = [
@@ -747,7 +751,9 @@ function updateClaimLinks(claim) {
   }
 
   if (modalWhatsappButton) {
-    modalWhatsappButton.href = `https://wa.me/${specialistWhatsapp}?text=${messageText}`;
+    modalWhatsappButton.href = specialistWhatsapp
+      ? `https://wa.me/${specialistWhatsapp}?text=${messageText}`
+      : "";
   }
 }
 
@@ -855,6 +861,22 @@ function queueNextBanner() {
 
 function stopCarousel() {
   window.clearInterval(carouselTimer);
+}
+
+async function initializeContactSettings() {
+  try {
+    const settings = await loadPublicSettings();
+    specialistTelegram = settings.telegram || "kaiye9998";
+    specialistWhatsapp = settings.whatsapp || "";
+    specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
+    if (contactTelegramButton) contactTelegramButton.href = specialistTelegramUrl;
+    if (contactWhatsappButton) {
+      contactWhatsappButton.href = specialistWhatsapp ? `https://wa.me/${specialistWhatsapp}` : "";
+      contactWhatsappButton.hidden = !specialistWhatsapp;
+    }
+  } catch (error) {
+    console.warn("Contact settings are temporarily unavailable.", error);
+  }
 }
 
 function openSpecialistTelegram() {
@@ -1099,10 +1121,11 @@ languageSelect?.addEventListener("change", (event) => {
 });
 
 applyLanguage(languageSelect?.value || "zh");
+initializeContactSettings();
 startWinnerFeed();
 startIdleSpin();
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (isSpinning) {
@@ -1125,6 +1148,32 @@ form.addEventListener("submit", (event) => {
   }
 
   const selected = pickSpinOutcome();
+  button.disabled = true;
+  if (centerSpinButton) centerSpinButton.disabled = true;
+  showMessage(currentLanguage === "zh" ? "正在验证账号和兑换码…" : "Verifying account and redemption code…");
+
+  try {
+    await validateEligibility(member, redemptionCodeValue);
+    if (selected.isWin) {
+      await redeemEligibility({
+        member,
+        redemptionCode: redemptionCodeValue,
+        telegram: normalizeTelegramName(telegram),
+        prize: `${selected.prize}U`,
+      });
+    }
+  } catch (error) {
+    const errorMessages = {
+      INVALID_CODE: currentLanguage === "zh" ? "兑换码无效，请联系工作人员。" : "Invalid redemption code. Please contact a specialist.",
+      CODE_USED: currentLanguage === "zh" ? "此兑换码已使用或已停用。" : "This redemption code has already been used or disabled.",
+      ACCOUNT_MISMATCH: currentLanguage === "zh" ? "会员账号与兑换码不匹配。" : "The member account does not match this redemption code.",
+    };
+    showMessage(errorMessages[error.message] || (currentLanguage === "zh" ? "暂时无法验证，请稍后重试。" : "Unable to verify right now. Please try again."));
+    button.disabled = false;
+    if (centerSpinButton) centerSpinButton.disabled = false;
+    return;
+  }
+
   const segmentAngle = 360 / wheelSlots.length;
   const kickDegrees = 92;
   const currentSelectedAngle = normalizeDegrees(selected.index * segmentAngle + rotation + kickDegrees);

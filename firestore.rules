@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /settings/contact {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /eligibilities/{code} {
+      allow get: if true;
+      allow list: if isAdmin();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (
+        resource.data.status == 'active' && resource.data.used == false &&
+        request.resource.data.status == 'used' && request.resource.data.used == true &&
+        request.resource.data.memberAccount == resource.data.memberAccount &&
+        request.resource.data.redemptionCode == resource.data.redemptionCode &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['used', 'status', 'usedAt', 'claimId', 'updatedAt']) &&
+        existsAfter(/databases/$(database)/documents/claims/$(request.resource.data.claimId))
+      );
+    }
+
+    match /claims/{claimId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly([
+          'memberAccount', 'redemptionCode', 'telegram', 'prize', 'status',
+          'eligibilityId', 'createdAt', 'updatedAt'
+        ]) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.redemptionCode == request.resource.data.eligibilityId &&
+        getAfter(/databases/$(database)/documents/eligibilities/$(request.resource.data.eligibilityId)).data.claimId == claimId;
+    }
+  }
+}

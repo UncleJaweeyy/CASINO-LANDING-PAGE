@@ -1,0 +1,12 @@
+{
+  "firestore": { "rules": "firestore.rules" },
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "firestore.rules", ".firebaserc", ".firebase/**", ".git/**", ".gitignore", "firebase-debug.log", "README.md"],
+    "cleanUrls": true,
+    "headers": [{
+      "source": "**",
+      "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
+    }]
+  }
+}
