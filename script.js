@@ -401,6 +401,13 @@ const translations = {
   },
 };
 
+const bannerLanguageFolders = {
+  en: "",
+  zh: "zh/",
+  vi: "vi/",
+  ms: "ms/",
+};
+
 function t(key, replacements = {}) {
   const template = translations[currentLanguage]?.[key] ?? translations.en[key] ?? key;
   return Object.entries(replacements).reduce(
@@ -413,6 +420,13 @@ function applyLanguage(language) {
   currentLanguage = translations[language] ? language : "zh";
   document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : currentLanguage;
   document.title = t("pageTitle");
+
+  const bannerFolder = bannerLanguageFolders[currentLanguage];
+  document.querySelectorAll(".promo-slide").forEach((slide, index) => {
+    const bannerNumber = String((index % originalSlides.length) + 1).padStart(2, "0");
+    slide.src = `assets/HERO_BANNERS_CAROUSELS/${bannerFolder}banner${bannerNumber}.png`;
+    slide.alt = `${currentLanguage.toUpperCase()} promotional banner ${(index % originalSlides.length) + 1}`;
+  });
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
