@@ -88,12 +88,12 @@ let currentLanguage = "zh";
 
 const translations = {
   en: {
-    pageTitle: "TOP Welcome Gift | 888U Spin Bonus",
+    pageTitle: "1XROLL Welcome Gift | 888U Spin Bonus",
     navHome: "Home",
-    navSpecialist: "Prize Specialist: TOP Plan",
+    navSpecialist: "Prize Specialist: 1XROLL Plan",
     navLogin: "Login",
-    heroEyebrow: "TOP WELCOME BONUS",
-    heroTitle: "TOP Welcome Gift, 888U Spin Bonus Awaits",
+    heroEyebrow: "1XROLL WELCOME BONUS",
+    heroTitle: "1XROLL Welcome Gift, 888U Spin Bonus Awaits",
     heroCopy:
       "New members unlock an exclusive prize wheel. Enter your details and start with live casino, slots, sports, and cards in one place.",
     heroPrimary: "Spin Now",
@@ -168,12 +168,12 @@ const translations = {
     minutesAgo: "{count} min ago",
   },
   zh: {
-    pageTitle: "TOP 新手豪礼 | 转盘礼金 888U",
+    pageTitle: "1XROLL 新手豪礼 | 转盘礼金 888U",
     navHome: "主页",
-    navSpecialist: "领奖专员：TOP企划",
+    navSpecialist: "领奖专员：1XROLL企划",
     navLogin: "登录",
-    heroEyebrow: "TOP 新手礼遇",
-    heroTitle: "TOP新手豪礼，转盘礼金888U，豪礼相迎",
+    heroEyebrow: "1XROLL 新手礼遇",
+    heroTitle: "1XROLL新手豪礼，转盘礼金888U，豪礼相迎",
     heroCopy: "注册即享专属转盘，输入会员信息后开启豪华礼金。真人、电子、体育、棋牌一站式开局。",
     heroPrimary: "立即抽奖",
     heroSecondary: "订阅飞机频道领68U",
@@ -243,12 +243,12 @@ const translations = {
     minutesAgo: "{count}分钟前",
   },
   vi: {
-    pageTitle: "TOP Quà Tân Thủ | Vòng Quay 888U",
+    pageTitle: "1XROLL Quà Tân Thủ | Vòng Quay 888U",
     navHome: "Trang chủ",
-    navSpecialist: "Chuyên viên nhận thưởng: TOP",
+    navSpecialist: "Chuyên viên nhận thưởng: 1XROLL",
     navLogin: "Đăng nhập",
-    heroEyebrow: "ƯU ĐÃI CHÀO MỪNG TOP",
-    heroTitle: "Quà tân thủ TOP, vòng quay thưởng 888U đang chờ",
+    heroEyebrow: "ƯU ĐÃI CHÀO MỪNG 1XROLL",
+    heroTitle: "Quà tân thủ 1XROLL, vòng quay thưởng 888U đang chờ",
     heroCopy:
       "Thành viên mới mở khóa vòng quay độc quyền. Nhập thông tin để bắt đầu với casino live, slot, thể thao và bài bàn.",
     heroPrimary: "Quay ngay",
@@ -321,12 +321,12 @@ const translations = {
     minutesAgo: "{count} phút trước",
   },
   ms: {
-    pageTitle: "TOP Hadiah Ahli Baru | Bonus Putaran 888U",
+    pageTitle: "1XROLL Hadiah Ahli Baru | Bonus Putaran 888U",
     navHome: "Laman Utama",
-    navSpecialist: "Pakar Hadiah: TOP",
+    navSpecialist: "Pakar Hadiah: 1XROLL",
     navLogin: "Log Masuk",
-    heroEyebrow: "BONUS SELAMAT DATANG TOP",
-    heroTitle: "Hadiah Ahli Baru TOP, Bonus Putaran 888U Menanti",
+    heroEyebrow: "BONUS SELAMAT DATANG 1XROLL",
+    heroTitle: "Hadiah Ahli Baru 1XROLL, Bonus Putaran 888U Menanti",
     heroCopy:
       "Ahli baru membuka roda hadiah eksklusif. Masukkan maklumat anda dan mula bermain live casino, slot, sukan, serta permainan kad di satu tempat.",
     heroPrimary: "Putar Sekarang",
