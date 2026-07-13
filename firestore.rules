@@ -15,6 +15,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /settings/videos {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /eligibilities/{code} {
       allow get: if true;
       allow list: if isAdmin();

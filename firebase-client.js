@@ -47,6 +47,15 @@ export async function loadPublicSettings() {
   return snapshot.exists() ? snapshot.data() : { telegram: "kaiye9998", whatsapp: "" };
 }
 
+export async function loadPublicVideos() {
+  const snapshot = await getDoc(doc(db, "settings", "videos"));
+  if (!snapshot.exists()) return null;
+  const videos = Array.isArray(snapshot.data().items) ? snapshot.data().items : [];
+  return videos
+    .filter((video) => video && video.enabled !== false && /^https:\/\//i.test(video.url || ""))
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+}
+
 export async function validateEligibility(member, redemptionCode) {
   const snapshot = await getDoc(doc(db, "eligibilities", normalizeCode(redemptionCode)));
   if (!snapshot.exists()) throw new Error("INVALID_CODE");
@@ -130,4 +139,18 @@ export const adminApi = {
     updatedAt: serverTimestamp(),
   }, { merge: true }),
   loadSettings: loadPublicSettings,
+  loadVideos: async () => {
+    const snapshot = await getDoc(doc(db, "settings", "videos"));
+    return snapshot.exists() && Array.isArray(snapshot.data().items) ? snapshot.data().items : null;
+  },
+  saveVideos: (items) => setDoc(doc(db, "settings", "videos"), {
+    items: items.map((item, index) => ({
+      id: String(item.id),
+      title: String(item.title || "").trim(),
+      url: String(item.url || "").trim(),
+      enabled: item.enabled !== false,
+      order: index,
+    })),
+    updatedAt: serverTimestamp(),
+  }),
 };

@@ -1,4 +1,20 @@
-import { loadPublicSettings, redeemEligibility, validateEligibility } from "./firebase-client.js";
+import { loadPublicSettings, loadPublicVideos, redeemEligibility, validateEligibility } from "./firebase-client.js";
+
+const managedVideos = await loadPublicVideos().catch(() => null);
+if (managedVideos !== null) {
+  const escapeAttribute = (value) => String(value).replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;",
+  })[character]);
+  const videoViewport = document.querySelector(".video-carousel-viewport");
+  const videoDotList = document.querySelector(".video-carousel-dots");
+  if (!managedVideos.length) document.querySelector(".video-carousel").hidden = true;
+  videoViewport.innerHTML = managedVideos.map((video, index) => `<video
+    class="video-slide${index === 0 ? " is-active" : ""}"
+    src="${escapeAttribute(video.url)}"
+    aria-label="${escapeAttribute(video.title || `Winning video ${index + 1}`)}"
+    playsinline preload="metadata"></video>`).join("");
+  videoDotList.innerHTML = managedVideos.map((video, index) => `<button class="${index === 0 ? "is-active" : ""}" type="button" aria-label="Show ${escapeAttribute(video.title || `video ${index + 1}`)}"></button>`).join("");
+}
 
 const wheel = document.querySelector("#wheel");
 const form = document.querySelector("#spinForm");

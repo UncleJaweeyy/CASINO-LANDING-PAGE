@@ -46,6 +46,7 @@
         <nav class="tabs" aria-label="Dashboard sections">
           <button class="active" data-tab="eligibility" type="button">Eligibility</button>
           <button data-tab="claims" type="button">Claims</button>
+          <button data-tab="videos" type="button">Videos</button>
           <button data-tab="settings" type="button">Contact links</button>
         </nav>
 
@@ -54,6 +55,13 @@
           <div class="filters"><input id="eligibilitySearch" type="search" placeholder="Search account or code" /><select id="eligibilityFilter"><option value="all">All statuses</option><option value="active">Active</option><option value="used">Used</option><option value="disabled">Disabled</option></select></div>
           <div class="table-wrap"><table><thead><tr><th>Member account</th><th>Redemption code</th><th>Status</th><th>Notes</th><th>Created</th><th></th></tr></thead><tbody id="eligibilityRows"></tbody></table></div>
           <p class="empty-state" id="eligibilityEmpty" hidden>No eligibility records found.</p>
+        </section>
+
+        <section class="tab-panel" id="videosPanel">
+          <div class="panel-toolbar"><div><h2>Winning videos</h2><p>Add external video links, control their order, or hide them from the live carousel.</p></div><button id="addVideoButton" type="button">+ Add video</button></div>
+          <div class="video-admin-list" id="videoAdminList"></div>
+          <p class="empty-state" id="videoEmpty" hidden>No managed videos yet. The live site is using its five default videos.</p>
+          <div class="video-save-bar"><span id="videoSaveStatus">Changes are saved when you press the button.</span><button id="saveVideosButton" type="button">Save video changes</button></div>
         </section>
 
         <section class="tab-panel" id="claimsPanel">
@@ -85,6 +93,18 @@
       <label>Internal notes<textarea id="eligibilityNotes" rows="3"></textarea></label>
       <div class="dialog-actions"><button class="ghost" type="button" data-close-dialog>Cancel</button><button type="submit">Save member</button></div>
       <p class="form-message" id="eligibilityMessage" role="alert"></p>
+    </form>
+  </dialog>
+  <dialog id="videoDialog">
+    <form id="videoForm">
+      <div class="dialog-heading"><div><p class="eyebrow">VIDEO</p><h2 id="videoDialogTitle">Add video</h2></div><button class="close-button" type="button" data-close-video-dialog>×</button></div>
+      <input id="videoIdInput" type="hidden" />
+      <label>Display title<input id="videoTitleInput" maxlength="100" placeholder="Winner highlight" required /></label>
+      <label>Direct HTTPS video URL<span>Cloudinary MP4 links are supported</span><input id="videoUrlInput" type="url" inputmode="url" placeholder="https://.../video.mp4" required /></label>
+      <label class="toggle-label"><input id="videoEnabledInput" type="checkbox" checked /><span>Show this video on the live site</span></label>
+      <div class="video-preview"><video id="videoPreview" controls playsinline preload="metadata"></video><p id="videoPreviewEmpty">Enter a URL to preview the video.</p></div>
+      <div class="dialog-actions"><button class="ghost" type="button" data-close-video-dialog>Cancel</button><button type="submit">Save video</button></div>
+      <p class="form-message" id="videoMessage" role="alert"></p>
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
