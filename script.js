@@ -90,7 +90,7 @@ const translations = {
   en: {
     pageTitle: "TOP Welcome Gift | 888U Spin Bonus",
     navHome: "Home",
-    navSpecialist: "Prize Specialist: TOP Plan",
+    navSpecialist: "Subscribe to Telegram for 68U",
     navLogin: "Login",
     heroEyebrow: "TOP WELCOME BONUS",
     heroTitle: "TOP Welcome Gift, 888U Spin Bonus Awaits",
@@ -170,7 +170,7 @@ const translations = {
   zh: {
     pageTitle: "TOP 新手豪礼 | 转盘礼金 888U",
     navHome: "主页",
-    navSpecialist: "领奖专员：TOP企划",
+    navSpecialist: "订阅飞机频道领68U",
     navLogin: "登录",
     heroEyebrow: "TOP 新手礼遇",
     heroTitle: "TOP新手豪礼，转盘礼金888U，豪礼相迎",
@@ -245,7 +245,7 @@ const translations = {
   vi: {
     pageTitle: "TOP Quà Tân Thủ | Vòng Quay 888U",
     navHome: "Trang chủ",
-    navSpecialist: "Chuyên viên nhận thưởng: TOP",
+    navSpecialist: "Theo dõi Telegram nhận 68U",
     navLogin: "Đăng nhập",
     heroEyebrow: "ƯU ĐÃI CHÀO MỪNG TOP",
     heroTitle: "Quà tân thủ TOP, vòng quay thưởng 888U đang chờ",
@@ -323,7 +323,7 @@ const translations = {
   ms: {
     pageTitle: "TOP Hadiah Ahli Baru | Bonus Putaran 888U",
     navHome: "Laman Utama",
-    navSpecialist: "Pakar Hadiah: TOP",
+    navSpecialist: "Langgan Telegram dapat 68U",
     navLogin: "Log Masuk",
     heroEyebrow: "BONUS SELAMAT DATANG TOP",
     heroTitle: "Hadiah Ahli Baru TOP, Bonus Putaran 888U Menanti",
