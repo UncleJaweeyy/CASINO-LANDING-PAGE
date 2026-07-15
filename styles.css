@@ -1310,6 +1310,8 @@ h1 {
 }
 
 .contact-actions a {
+  position: relative;
+  overflow: hidden;
   gap: 10px;
   min-width: 132px;
   padding: 13px 18px;
@@ -1471,6 +1473,8 @@ h1 {
 }
 
 .win-modal-actions a {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1502,6 +1506,43 @@ h1 {
 
 .win-modal-actions .whatsapp {
   background: linear-gradient(135deg, #66ff9d, #14a94c);
+}
+
+.contact-actions :is(.telegram, .whatsapp)::after,
+.win-modal-actions :is(.telegram, .whatsapp)::after {
+  content: "";
+  position: absolute;
+  inset: -45% auto -45% -55%;
+  width: 34%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  filter: blur(1px);
+  transform: skewX(-20deg) translateX(-220%);
+  animation: contactButtonGlare 3.2s ease-in-out infinite;
+}
+
+.contact-actions .whatsapp::after,
+.win-modal-actions .whatsapp::after {
+  animation-delay: 0.35s;
+}
+
+@keyframes contactButtonGlare {
+  0%,
+  18% {
+    transform: skewX(-20deg) translateX(-220%);
+  }
+
+  48%,
+  100% {
+    transform: skewX(-20deg) translateX(620%);
+  }
 }
 
 @keyframes coinFall {
