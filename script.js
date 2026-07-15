@@ -48,7 +48,7 @@ const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
 const contactTelegramButton = document.querySelector("#contactTelegramButton");
 const contactWhatsappButton = document.querySelector("#contactWhatsappButton");
 
-const wheelSlots = [38, 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
+const wheelSlots = [38, 18, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 
 let rotation = 0;
 let isSpinning = false;
