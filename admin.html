@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>WINBOX Admin</title>
+  <title>1XROLL Admin</title>
   <link rel="icon" href="assets/LOGO_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,7 +16,7 @@
   <main>
     <section class="login-shell" id="loginView">
       <form class="login-card" id="loginForm">
-        <img src="assets/LOGO.png" alt="WINBOX" />
+        <img src="assets/LOGO.png" alt="1XROLL" />
         <p class="eyebrow">SECURE OPERATIONS</p>
         <h1>Admin dashboard</h1>
         <p>Sign in to manage eligibility, claims, and contact links.</p>
@@ -29,7 +29,7 @@
 
     <section class="dashboard" id="dashboardView" hidden>
       <header class="admin-header">
-        <a href="index.html"><img src="assets/LOGO.png" alt="WINBOX" /></a>
+        <a href="index.html"><img src="assets/LOGO.png" alt="1XROLL" /></a>
         <div><span id="adminEmail"></span><button class="ghost" id="signOutButton" type="button">Sign out</button></div>
       </header>
       <div class="dashboard-body">
@@ -53,7 +53,7 @@
         <section class="tab-panel active" id="eligibilityPanel">
           <div class="panel-toolbar"><div><h2>Member eligibility</h2><p>Create and manage player accounts and one-time codes.</p></div><button id="addEligibilityButton" type="button">+ Add member</button></div>
           <div class="filters"><input id="eligibilitySearch" type="search" placeholder="Search account or code" /><select id="eligibilityFilter"><option value="all">All statuses</option><option value="active">Active</option><option value="used">Used</option><option value="disabled">Disabled</option></select></div>
-          <div class="table-wrap"><table><thead><tr><th>Member account</th><th>Redemption code</th><th>Status</th><th>Notes</th><th>Created</th><th></th></tr></thead><tbody id="eligibilityRows"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Member account</th><th>Redemption code</th><th>Spin prize</th><th>Status</th><th>Notes</th><th>Created</th><th></th></tr></thead><tbody id="eligibilityRows"></tbody></table></div>
           <p class="empty-state" id="eligibilityEmpty" hidden>No eligibility records found.</p>
         </section>
 
@@ -89,6 +89,7 @@
       <input id="originalCode" type="hidden" />
       <label>Registered member account<input id="memberAccountInput" required /></label>
       <label>Redemption code<input id="redemptionCodeInput" required maxlength="60" /></label>
+      <label>Spin prize<select id="eligibilityPrize" required><option value="38U">38U</option><option value="88U">88U</option><option value="108U">108U</option><option value="188U">188U</option><option value="288U">288U</option><option value="588U">588U</option><option value="888U">888U</option></select></label>
       <label>Status<select id="eligibilityStatus"><option value="active">Active</option><option value="disabled">Disabled</option><option value="used">Used</option></select></label>
       <label>Internal notes<textarea id="eligibilityNotes" rows="3"></textarea></label>
       <div class="dialog-actions"><button class="ghost" type="button" data-close-dialog>Cancel</button><button type="submit">Save member</button></div>

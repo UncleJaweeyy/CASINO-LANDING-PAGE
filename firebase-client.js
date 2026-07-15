@@ -62,10 +62,10 @@ export async function validateEligibility(member, redemptionCode) {
   const eligibility = snapshot.data();
   if (eligibility.status !== "active" || eligibility.used === true) throw new Error("CODE_USED");
   if (normalizeAccount(eligibility.memberAccount || "") !== normalizeAccount(member)) throw new Error("ACCOUNT_MISMATCH");
-  return true;
+  return eligibility.prize || "38U";
 }
 
-export async function redeemEligibility({ member, redemptionCode, telegram, prize }) {
+export async function redeemEligibility({ member, redemptionCode, telegram }) {
   const code = normalizeCode(redemptionCode);
   const account = normalizeAccount(member);
   const eligibilityRef = doc(db, "eligibilities", code);
@@ -78,6 +78,7 @@ export async function redeemEligibility({ member, redemptionCode, telegram, priz
     const eligibility = eligibilitySnapshot.data();
     if (eligibility.status !== "active" || eligibility.used === true) throw new Error("CODE_USED");
     if (normalizeAccount(eligibility.memberAccount || "") !== account) throw new Error("ACCOUNT_MISMATCH");
+    const prize = eligibility.prize || "38U";
 
     transaction.update(eligibilityRef, {
       used: true,
@@ -96,7 +97,7 @@ export async function redeemEligibility({ member, redemptionCode, telegram, priz
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
-    return claimRef.id;
+    return { claimId: claimRef.id, prize };
   });
 }
 
@@ -119,6 +120,7 @@ export const adminApi = {
     const payload = {
       memberAccount: values.memberAccount.trim(),
       redemptionCode: code,
+      prize: values.prize || "38U",
       status: values.status,
       used: values.status === "used",
       notes: values.notes.trim(),

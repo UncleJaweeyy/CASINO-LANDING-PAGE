@@ -43,6 +43,11 @@ service cloud.firestore {
         ]) &&
         request.resource.data.status == 'pending' &&
         request.resource.data.redemptionCode == request.resource.data.eligibilityId &&
+        request.resource.data.prize == (
+          'prize' in getAfter(/databases/$(database)/documents/eligibilities/$(request.resource.data.eligibilityId)).data
+            ? getAfter(/databases/$(database)/documents/eligibilities/$(request.resource.data.eligibilityId)).data.prize
+            : '38U'
+        ) &&
         getAfter(/databases/$(database)/documents/eligibilities/$(request.resource.data.eligibilityId)).data.claimId == claimId;
     }
   }

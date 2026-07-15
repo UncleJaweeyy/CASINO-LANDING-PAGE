@@ -666,7 +666,7 @@ h1 {
 }
 
 .wheel-stage::before {
-  content: "WINBOX";
+  content: "1XROLL";
   position: absolute;
   inset: auto 0 28px;
   color: rgba(186, 255, 0, 0.055);

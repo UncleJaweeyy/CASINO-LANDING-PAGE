@@ -1,4 +1,4 @@
-import { loadPublicSettings, loadPublicVideos, redeemEligibility, validateEligibility } from "./firebase-client.js";
+import { loadPublicSettings, loadPublicVideos, redeemEligibility } from "./firebase-client.js";
 
 const managedVideos = await loadPublicVideos().catch(() => null);
 if (managedVideos !== null) {
@@ -48,11 +48,7 @@ const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
 const contactTelegramButton = document.querySelector("#contactTelegramButton");
 const contactWhatsappButton = document.querySelector("#contactWhatsappButton");
 
-const wheelSlots = ["retry", 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
-const retrySlot = { prize: "retry", index: 0 };
-const obtainablePrizeIndexes = wheelSlots
-  .map((prize, index) => ({ prize, index }))
-  .filter(({ prize }) => [38, 88, 108, 188].includes(prize));
+const wheelSlots = [38, 38, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 
 let rotation = 0;
 let isSpinning = false;
@@ -132,15 +128,10 @@ const translations = {
     heroStatPrize: "Grand Bonus",
     heroStatNoLow: "Skip Low Rewards",
     heroStatService: "Specialist Service",
-    spinTitle: "WINBOX Bonus Wheel",
-    spinSubtitle:
-      "Three exclusive spins for new members. Each round brings you closer to a bigger surprise.",
-    wheelRetry: "Try Again",
+    spinTitle: "1XROLL Bonus Wheel",
+    spinSubtitle: "One redemption code unlocks one guaranteed, admin-assigned prize.",
     newMember: "NEW MEMBER",
     formTitle: "Claim Eligibility",
-    chanceDefault: "Three chances. Real reward pending.",
-    chanceTwo: "Try again. A real reward is getting closer.",
-    chanceOne: "Final spin. Go for the top real reward.",
     chanceLocked: "Reward locked.",
     chanceCount: "{count} left",
     memberLabel: "Registered Member Account",
@@ -151,21 +142,16 @@ const translations = {
     telegramPlaceholder: "@telegram",
     spinButton: "Spin the Wheel",
     spinning: "Spinning",
-    tryAgainButton: "Try Again",
-    finalSpinButton: "Final Spin",
     prizeLockedButton: "Reward Locked",
-    spinInitialMessage: "Complete registration details to unlock 3 spins toward a real obtainable reward.",
-    missingFields: "Please enter your member account, redemption code, and Telegram username first.",
-    completedMessage: "This round of 3 chances is complete. Please contact a prize specialist to verify the reward.",
+    spinInitialMessage: "Enter your member account and redemption code to reveal your assigned prize.",
+    missingFields: "Please enter your member account and redemption code first.",
+    completedMessage: "This redemption code has already awarded its prize. Please contact a prize specialist for verification.",
     matchingPrefix: "Member ",
     matchingSuffix: " is matching a special bonus...",
     winPrefix: "Congratulations ",
     winMiddle: " won the top bonus ",
     winSuffix: "! Please use ",
     winContact: " to contact a prize specialist for verification.",
-    retryPrefix: "Try again",
-    retryMiddle: "! You still have ",
-    retrySuffix: " chance(s) left. A real reward is unlocking.",
     videoTitle: "Winning Videos",
     videoSubtitle:
       "Fresh bonus highlights keep rolling. Watch how others take home 888U and claim the next spotlight.",
@@ -190,11 +176,11 @@ const translations = {
     winModalBadge: "GRAND PRIZE",
     winModalTitle: "Congratulations!",
     winModalCopyPrefix: "You won",
-    winModalCopySuffix: "from the WINBOX bonus wheel.",
+    winModalCopySuffix: "from the 1XROLL bonus wheel.",
     winModalSubcopy:
       "Contact a prize specialist now. Your claim details will be attached automatically.",
     claimMessage:
-      "Hello WINBOX Prize Specialist, I would like to claim my spin bonus. Member account: {member}. Redemption code: {redemptionCode}. Telegram: {telegram}. Prize amount: {amount}. Timestamp: {timestamp}. Please help verify and process my reward. Thank you.",
+      "Hello 1XROLL Prize Specialist, I would like to claim my spin bonus. Member account: {member}. Redemption code: {redemptionCode}. Telegram: {telegram}. Prize amount: {amount}. Timestamp: {timestamp}. Please help verify and process my reward. Thank you.",
     justClaimed: "Just claimed",
     minutesAgo: "{count} min ago",
   },
@@ -226,14 +212,10 @@ const translations = {
     heroStatPrize: "最高礼金",
     heroStatNoLow: "避开低奖",
     heroStatService: "专员服务",
-    spinTitle: "WINBOX 豪礼转盘",
-    spinSubtitle: "新会员专属三次转盘，每一轮都让你更接近更大的惊喜。",
-    wheelRetry: "再试一次",
+    spinTitle: "1XROLL 豪礼转盘",
+    spinSubtitle: "每个兑换码可抽奖一次，并获得管理员预设的奖品。",
     newMember: "新会员",
     formTitle: "领取资格登记",
-    chanceDefault: "三次机会，真实奖励待解锁",
-    chanceTwo: "再试一次，真实奖励接近中",
-    chanceOne: "最后一次，冲刺最高可领奖励",
     chanceLocked: "奖励已锁定",
     chanceCount: "剩余 {count} 次",
     memberLabel: "注册会员账号",
@@ -244,21 +226,16 @@ const translations = {
     telegramPlaceholder: "@telegram",
     spinButton: "旋转转盘",
     spinning: "旋转中",
-    tryAgainButton: "再试一次",
-    finalSpinButton: "最后一转",
     prizeLockedButton: "奖励已锁定",
-    spinInitialMessage: "完成登记后即可开启礼金转盘，共有 3 次冲刺真实奖励机会。",
-    missingFields: "请先填写注册会员账号、兑换码与 Telegram 用户名。",
-    completedMessage: "本轮 3 次机会已完成，请联系领奖专员核实奖励。",
+    spinInitialMessage: "填写会员账号和兑换码，立即获得预设奖品。",
+    missingFields: "请先填写会员账号和兑换码。",
+    completedMessage: "此兑换码已成功获得奖品，请联系领奖专员核实奖励。",
     matchingPrefix: "会员 ",
     matchingSuffix: " 正在匹配专属礼金...",
     winPrefix: "恭喜 ",
     winMiddle: " 抽中最高礼金 ",
     winSuffix: "！请使用 ",
     winContact: " 联系领奖专员核实。",
-    retryPrefix: "再试一次",
-    retryMiddle: "！还剩 ",
-    retrySuffix: " 机会，真实奖励正在解锁。",
     videoTitle: "中奖视频",
     videoSubtitle: "真实礼金高光持续更新，看看别人如何把 888U 带走，下一个高光席位等你来占。",
     latestClaim: "最新领奖",
@@ -281,10 +258,10 @@ const translations = {
     winModalBadge: "最高大奖",
     winModalTitle: "恭喜中奖！",
     winModalCopyPrefix: "您已赢得",
-    winModalCopySuffix: "WINBOX 豪礼转盘奖励。",
+    winModalCopySuffix: "1XROLL 豪礼转盘奖励。",
     winModalSubcopy: "立即联系领奖专员，系统会自动附上您的领奖资料。",
     claimMessage:
-      "您好 WINBOX 领奖专员，我想领取我的转盘礼金。会员账号：{member}。兑换码：{redemptionCode}。Telegram：{telegram}。中奖金额：{amount}。时间：{timestamp}。请协助核实并处理奖励，谢谢。",
+      "您好 1XROLL 领奖专员，我想领取我的转盘礼金。会员账号：{member}。兑换码：{redemptionCode}。Telegram：{telegram}。中奖金额：{amount}。时间：{timestamp}。请协助核实并处理奖励，谢谢。",
     justClaimed: "刚刚领取",
     minutesAgo: "{count}分钟前",
   },
@@ -317,14 +294,10 @@ const translations = {
     heroStatPrize: "Thưởng cao nhất",
     heroStatNoLow: "Bỏ qua thưởng thấp",
     heroStatService: "Hỗ trợ 24H",
-    spinTitle: "Vòng Quay Thưởng WINBOX",
-    spinSubtitle: "Ba lượt quay riêng cho thành viên mới. Mỗi vòng đưa bạn đến gần hơn với bất ngờ lớn hơn.",
-    wheelRetry: "Thử lại",
+    spinTitle: "Vòng Quay Thưởng 1XROLL",
+    spinSubtitle: "Mỗi mã đổi thưởng mở một lượt quay với giải thưởng do quản trị viên chỉ định.",
     newMember: "THÀNH VIÊN MỚI",
     formTitle: "Đăng ký nhận thưởng",
-    chanceDefault: "Ba lượt quay, phần thưởng thật đang chờ.",
-    chanceTwo: "Thử lại, phần thưởng thật đang đến gần.",
-    chanceOne: "Lượt cuối, nhắm giải cao nhất.",
     chanceLocked: "Phần thưởng đã khóa.",
     chanceCount: "Còn {count} lượt",
     memberLabel: "Tài khoản thành viên đã đăng ký",
@@ -335,21 +308,16 @@ const translations = {
     telegramPlaceholder: "@telegram",
     spinButton: "Quay thưởng",
     spinning: "Đang quay",
-    tryAgainButton: "Thử lại",
-    finalSpinButton: "Lượt cuối",
     prizeLockedButton: "Đã khóa thưởng",
-    spinInitialMessage: "Hoàn tất thông tin để mở 3 lượt quay hướng đến phần thưởng thật.",
-    missingFields: "Vui lòng nhập tài khoản thành viên, mã nhận thưởng và tên Telegram trước.",
-    completedMessage: "Bạn đã dùng hết 3 lượt. Hãy liên hệ chuyên viên để xác minh phần thưởng.",
+    spinInitialMessage: "Nhập tài khoản thành viên và mã đổi thưởng để nhận giải đã chỉ định.",
+    missingFields: "Vui lòng nhập tài khoản thành viên và mã đổi thưởng.",
+    completedMessage: "Mã đổi thưởng này đã nhận giải. Hãy liên hệ chuyên viên để xác minh.",
     matchingPrefix: "Thành viên ",
     matchingSuffix: " đang ghép thưởng đặc biệt...",
     winPrefix: "Chúc mừng ",
     winMiddle: " đã trúng thưởng cao nhất ",
     winSuffix: "! Vui lòng dùng ",
     winContact: " để liên hệ chuyên viên xác minh.",
-    retryPrefix: "Thử lại",
-    retryMiddle: "! Bạn còn ",
-    retrySuffix: " lượt, phần thưởng thật đang mở khóa.",
     videoTitle: "Video trúng thưởng",
     videoSubtitle: "Khoảnh khắc nhận thưởng được cập nhật liên tục. Xem người khác mang 888U về và chiếm spotlight tiếp theo.",
     latestClaim: "Nhận thưởng mới nhất",
@@ -373,11 +341,11 @@ const translations = {
     winModalBadge: "GIẢI LỚN",
     winModalTitle: "Chúc mừng!",
     winModalCopyPrefix: "Bạn đã thắng",
-    winModalCopySuffix: "từ vòng quay thưởng WINBOX.",
+    winModalCopySuffix: "từ vòng quay thưởng 1XROLL.",
     winModalSubcopy:
       "Liên hệ chuyên viên nhận thưởng ngay. Thông tin nhận thưởng sẽ được đính kèm tự động.",
     claimMessage:
-      "Xin chào Chuyên viên nhận thưởng WINBOX, tôi muốn nhận bonus vòng quay. Tài khoản thành viên: {member}. Mã nhận thưởng: {redemptionCode}. Telegram: {telegram}. Số tiền thưởng: {amount}. Thời gian: {timestamp}. Vui lòng hỗ trợ xác minh và xử lý phần thưởng. Cảm ơn.",
+      "Xin chào Chuyên viên nhận thưởng 1XROLL, tôi muốn nhận bonus vòng quay. Tài khoản thành viên: {member}. Mã nhận thưởng: {redemptionCode}. Telegram: {telegram}. Số tiền thưởng: {amount}. Thời gian: {timestamp}. Vui lòng hỗ trợ xác minh và xử lý phần thưởng. Cảm ơn.",
     justClaimed: "Vừa nhận",
     minutesAgo: "{count} phút trước",
   },
@@ -410,14 +378,10 @@ const translations = {
     heroStatPrize: "Bonus Tertinggi",
     heroStatNoLow: "Elak Hadiah Rendah",
     heroStatService: "Servis Pakar 24J",
-    spinTitle: "Roda Bonus WINBOX",
-    spinSubtitle: "Tiga putaran eksklusif untuk ahli baru. Setiap pusingan membawa anda lebih dekat kepada kejutan yang lebih besar.",
-    wheelRetry: "Cuba Lagi",
+    spinTitle: "Roda Bonus 1XROLL",
+    spinSubtitle: "Setiap kod penebusan membuka satu putaran dengan hadiah yang ditetapkan pentadbir.",
     newMember: "AHLI BARU",
     formTitle: "Kelayakan Tuntutan",
-    chanceDefault: "Tiga peluang. Hadiah sebenar sedang menanti.",
-    chanceTwo: "Cuba lagi. Hadiah sebenar semakin hampir.",
-    chanceOne: "Putaran terakhir. Sasar hadiah tertinggi.",
     chanceLocked: "Hadiah dikunci.",
     chanceCount: "Baki {count} kali",
     memberLabel: "Akaun Ahli Berdaftar",
@@ -428,21 +392,16 @@ const translations = {
     telegramPlaceholder: "@telegram",
     spinButton: "Putar Roda",
     spinning: "Sedang Berputar",
-    tryAgainButton: "Cuba Lagi",
-    finalSpinButton: "Putaran Terakhir",
     prizeLockedButton: "Hadiah Dikunci",
-    spinInitialMessage: "Lengkapkan maklumat untuk membuka 3 putaran menuju hadiah sebenar.",
-    missingFields: "Sila masukkan akaun ahli, kod penebusan dan nama pengguna Telegram dahulu.",
-    completedMessage: "Pusingan 3 peluang ini telah selesai. Sila hubungi pakar hadiah untuk mengesahkan hadiah.",
+    spinInitialMessage: "Masukkan akaun ahli dan kod penebusan untuk menerima hadiah yang ditetapkan.",
+    missingFields: "Sila masukkan akaun ahli dan kod penebusan.",
+    completedMessage: "Kod penebusan ini telah menerima hadiah. Sila hubungi pakar untuk pengesahan.",
     matchingPrefix: "Ahli ",
     matchingSuffix: " sedang dipadankan dengan bonus istimewa...",
     winPrefix: "Tahniah ",
     winMiddle: " memenangi bonus tertinggi ",
     winSuffix: "! Sila gunakan ",
     winContact: " untuk menghubungi pakar hadiah bagi pengesahan.",
-    retryPrefix: "Cuba lagi",
-    retryMiddle: "! Anda masih ada ",
-    retrySuffix: " peluang. Hadiah sebenar sedang dibuka.",
     videoTitle: "Video Kemenangan",
     videoSubtitle:
       "Sorotan bonus terkini sentiasa dikemas kini. Lihat cara pemain lain membawa pulang 888U dan rebut giliran sorotan seterusnya.",
@@ -467,11 +426,11 @@ const translations = {
     winModalBadge: "HADIAH UTAMA",
     winModalTitle: "Tahniah!",
     winModalCopyPrefix: "Anda memenangi",
-    winModalCopySuffix: "daripada roda bonus WINBOX.",
+    winModalCopySuffix: "daripada roda bonus 1XROLL.",
     winModalSubcopy:
       "Hubungi pakar hadiah sekarang. Butiran tuntutan anda akan dilampirkan secara automatik.",
     claimMessage:
-      "Hello Pakar Hadiah WINBOX, saya ingin menuntut bonus putaran saya. Akaun ahli: {member}. Kod penebusan: {redemptionCode}. Telegram: {telegram}. Jumlah hadiah: {amount}. Masa: {timestamp}. Sila bantu sahkan dan proses hadiah saya. Terima kasih.",
+      "Hello Pakar Hadiah 1XROLL, saya ingin menuntut bonus putaran saya. Akaun ahli: {member}. Kod penebusan: {redemptionCode}. Telegram: {telegram}. Jumlah hadiah: {amount}. Masa: {timestamp}. Sila bantu sahkan dan proses hadiah saya. Terima kasih.",
     justClaimed: "Baru dituntut",
     minutesAgo: "{count} min lalu",
   },
@@ -538,30 +497,17 @@ function normalizeDegrees(value) {
   return ((value % 360) + 360) % 360;
 }
 
-function pickRetryOutcome() {
-  return {
-    ...retrySlot,
-    isWin: false,
-    label: t("wheelRetry"),
-  };
-}
-
-function pickWinningPrizeOutcome() {
-  return {
-    ...obtainablePrizeIndexes[Math.floor(Math.random() * obtainablePrizeIndexes.length)],
-    isWin: true,
-  };
-}
-
-function pickSpinOutcome() {
-  return spinsUsed + 1 >= 3 ? pickWinningPrizeOutcome() : pickRetryOutcome();
+function outcomeForPrize(prizeLabel) {
+  const prize = Number.parseInt(prizeLabel, 10);
+  const matchingIndexes = wheelSlots
+    .map((slotPrize, index) => ({ prize: slotPrize, index }))
+    .filter((slot) => slot.prize === prize);
+  return matchingIndexes[Math.floor(Math.random() * matchingIndexes.length)] || { prize: 38, index: 0 };
 }
 
 function updateChanceMeter() {
-  const chancesLeft = Math.max(3 - spinsUsed, 0);
-
   if (chanceCount) {
-    chanceCount.textContent = t("chanceCount", { count: chancesLeft });
+    chanceCount.textContent = isPromoComplete ? t("prizeLockedButton") : (currentLanguage === "zh" ? "1 次抽奖" : "1 spin");
   }
 
   if (!chanceLabel) {
@@ -570,23 +516,13 @@ function updateChanceMeter() {
 
   if (isPromoComplete) {
     chanceLabel.textContent = t("chanceLocked");
-  } else if (chancesLeft === 1) {
-    chanceLabel.textContent = t("chanceOne");
-  } else if (chancesLeft === 2) {
-    chanceLabel.textContent = t("chanceTwo");
   } else {
-    chanceLabel.textContent = t("chanceDefault");
+    chanceLabel.textContent = currentLanguage === "zh" ? "输入账号和兑换码，立即获得奖品" : "Enter your account and code to reveal your prize.";
   }
 }
 
 function getNextButtonLabel() {
-  const chancesLeft = Math.max(3 - spinsUsed, 0);
-
-  if (chancesLeft <= 0) {
-    return t("prizeLockedButton");
-  }
-
-  return chancesLeft === 1 ? t("finalSpinButton") : t("tryAgainButton");
+  return isPromoComplete ? t("prizeLockedButton") : t("spinButton");
 }
 
 function strongText(text) {
@@ -602,6 +538,7 @@ function showMessage(...parts) {
 }
 
 function normalizeTelegramName(value) {
+  if (!value || value === "—") return "—";
   return value.startsWith("@") ? value : `@${value}`;
 }
 
@@ -1226,32 +1163,29 @@ form.addEventListener("submit", async (event) => {
   const redemptionCodeValue = redemptionCode.value.trim();
   const telegram = telegramName.value.trim().replace(/\s+/g, "");
 
-  if (!member || !redemptionCodeValue || !telegram) {
+  if (!member || !redemptionCodeValue) {
     showMessage(t("missingFields"));
     form.reportValidity();
     return;
   }
 
-  if (spinsUsed >= 3) {
+  if (isPromoComplete) {
     showMessage(t("completedMessage"));
     return;
   }
 
-  const selected = pickSpinOutcome();
   button.disabled = true;
   if (centerSpinButton) centerSpinButton.disabled = true;
   showMessage(currentLanguage === "zh" ? "正在验证账号和兑换码…" : "Verifying account and redemption code…");
+  let selected;
 
   try {
-    await validateEligibility(member, redemptionCodeValue);
-    if (selected.isWin) {
-      await redeemEligibility({
-        member,
-        redemptionCode: redemptionCodeValue,
-        telegram: normalizeTelegramName(telegram),
-        prize: `${selected.prize}U`,
-      });
-    }
+    const redemption = await redeemEligibility({
+      member,
+      redemptionCode: redemptionCodeValue,
+      telegram: telegram ? normalizeTelegramName(telegram) : "—",
+    });
+    selected = outcomeForPrize(redemption.prize);
   } catch (error) {
     const errorMessages = {
       INVALID_CODE: currentLanguage === "zh" ? "兑换码无效，请联系工作人员。" : "Invalid redemption code. Please contact a specialist.",
@@ -1292,10 +1226,10 @@ form.addEventListener("submit", async (event) => {
   resultTimer = window.setTimeout(() => {
     spinsUsed += 1;
     isSpinning = false;
-    isPromoComplete = selected.isWin;
+    isPromoComplete = true;
     updateChanceMeter();
 
-    if (selected.isWin) {
+    {
       const amount = `${selected.prize}U`;
       const claim = createClaimDetails(amount, member, redemptionCodeValue, telegram);
       storeClaimDetails(claim);
@@ -1318,18 +1252,5 @@ form.addEventListener("submit", async (event) => {
       openWinModal(claim);
       return;
     }
-
-    button.disabled = false;
-    if (centerSpinButton) {
-      centerSpinButton.disabled = false;
-    }
-    button.textContent = getNextButtonLabel();
-    showMessage(
-      strongText(t("retryPrefix")),
-      t("retryMiddle"),
-      strongText(String(Math.max(3 - spinsUsed, 0))),
-      t("retrySuffix")
-    );
-    startIdleSpin();
   }, 4470);
 });

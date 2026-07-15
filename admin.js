@@ -53,6 +53,7 @@ function renderEligibilities() {
   $("#eligibilityRows").innerHTML = records.map((record) => `<tr>
     <td><strong>${escapeHtml(record.memberAccount)}</strong></td>
     <td>${escapeHtml(record.redemptionCode)}</td>
+    <td><strong>${escapeHtml(record.prize || "38U")}</strong></td>
     <td>${badge(record.status)}</td>
     <td>${escapeHtml(record.notes || "—")}</td>
     <td>${formatDate(record.createdAt)}</td>
@@ -128,6 +129,7 @@ function openEligibility(record) {
   $("#originalCode").value = record?.id || "";
   $("#memberAccountInput").value = record?.memberAccount || "";
   $("#redemptionCodeInput").value = record?.redemptionCode || "";
+  $("#eligibilityPrize").value = record?.prize || "38U";
   $("#eligibilityStatus").value = record?.status || "active";
   $("#eligibilityNotes").value = record?.notes || "";
   $("#eligibilityMessage").textContent = "";
@@ -250,6 +252,7 @@ $("#eligibilityForm").addEventListener("submit", async (event) => {
     await adminApi.saveEligibility($("#originalCode").value, {
       memberAccount: $("#memberAccountInput").value,
       redemptionCode: $("#redemptionCodeInput").value,
+      prize: $("#eligibilityPrize").value,
       status: $("#eligibilityStatus").value,
       notes: $("#eligibilityNotes").value,
     });
