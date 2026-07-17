@@ -188,7 +188,7 @@ const translations = {
     pageTitle: "1XROLL 新手豪礼 | 转盘礼金 888U",
     navHome: "主页",
     navSpecialist: "领奖专员：1XROLL企划",
-    navLogin: "登录",
+    navLogin: "注册",
     heroEyebrow: "1XROLL 新手礼遇",
     heroTitle: "1XROLL新手豪礼，转盘礼金888U，豪礼相迎",
     heroCopy: "注册即享专属转盘，输入会员信息后开启豪华礼金。真人、电子、体育、棋牌一站式开局。",
