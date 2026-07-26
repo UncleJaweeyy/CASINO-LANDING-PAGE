@@ -47,7 +47,7 @@
           <button class="active" data-tab="eligibility" type="button">Eligibility</button>
           <button data-tab="claims" type="button">Claims</button>
           <button data-tab="videos" type="button">Videos</button>
-          <button data-tab="settings" type="button">Contact links</button>
+          <button data-tab="settings" type="button">Contact & CTA links</button>
         </nav>
 
         <section class="tab-panel active" id="eligibilityPanel">
@@ -72,11 +72,12 @@
         </section>
 
         <section class="tab-panel" id="settingsPanel">
-          <div class="panel-toolbar"><div><h2>Contact links</h2><p>Changes appear on the live site without redeployment.</p></div></div>
+          <div class="panel-toolbar"><div><h2>Contact & CTA links</h2><p>Changes appear on the live site without redeployment.</p></div></div>
           <form class="settings-form" id="settingsForm">
             <label>Telegram username<span>Enter without @</span><input id="telegramSetting" placeholder="kaiye9998" /></label>
             <label>WhatsApp number<span>Country code + number, digits only</span><input id="whatsappSetting" inputmode="tel" placeholder="60123456789" /></label>
-            <button type="submit">Save contact links</button><p class="form-message" id="settingsMessage" role="status"></p>
+            <label>68U button destination<span>Telegram username or full HTTPS link</span><input id="promotionUrlSetting" placeholder="@dev_1xroll_test_bot" required /></label>
+            <button type="submit">Save links</button><p class="form-message" id="settingsMessage" role="status"></p>
           </form>
         </section>
       </div>

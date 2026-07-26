@@ -44,7 +44,12 @@ export function normalizeAccount(value) {
 
 export async function loadPublicSettings() {
   const snapshot = await getDoc(doc(db, "settings", "contact"));
-  return snapshot.exists() ? snapshot.data() : { telegram: "kaiye9998", whatsapp: "" };
+  return {
+    telegram: "kaiye9998",
+    whatsapp: "",
+    promotionUrl: "https://t.me/dev_1xroll_test_bot",
+    ...(snapshot.exists() ? snapshot.data() : {}),
+  };
 }
 
 export async function loadPublicVideos() {
@@ -135,11 +140,22 @@ export const adminApi = {
   deleteEligibility: (code) => deleteDoc(doc(db, "eligibilities", normalizeCode(code))),
   updateClaim: (id, values) => updateDoc(doc(db, "claims", id), { ...values, updatedAt: serverTimestamp() }),
   deleteClaim: (id) => deleteDoc(doc(db, "claims", id)),
-  saveSettings: (values) => setDoc(doc(db, "settings", "contact"), {
-    telegram: values.telegram.trim().replace(/^@/, ""),
-    whatsapp: values.whatsapp.replace(/\D/g, ""),
-    updatedAt: serverTimestamp(),
-  }, { merge: true }),
+  saveSettings: (values) => {
+    const promotionDestination = values.promotionUrl.trim();
+    const promotionUrl = /^@?[A-Za-z0-9_]{5,}$/.test(promotionDestination)
+      ? `https://t.me/${promotionDestination.replace(/^@/, "")}`
+      : promotionDestination;
+    if (!/^https:\/\//i.test(promotionUrl)) {
+      throw new Error("Enter a Telegram username or a full HTTPS link.");
+    }
+
+    return setDoc(doc(db, "settings", "contact"), {
+      telegram: values.telegram.trim().replace(/^@/, ""),
+      whatsapp: values.whatsapp.replace(/\D/g, ""),
+      promotionUrl,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  },
   loadSettings: loadPublicSettings,
   loadVideos: async () => {
     const snapshot = await getDoc(doc(db, "settings", "videos"));

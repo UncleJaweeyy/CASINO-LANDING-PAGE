@@ -150,6 +150,7 @@ async function startDashboard(user) {
   const settings = await adminApi.loadSettings();
   $("#telegramSetting").value = settings.telegram || "";
   $("#whatsappSetting").value = settings.whatsapp || "";
+  $("#promotionUrlSetting").value = settings.promotionUrl || "https://t.me/dev_1xroll_test_bot";
   const managedVideos = await adminApi.loadVideos();
   videoRecords = (managedVideos === null ? defaultVideos : managedVideos).map((video, index) => ({ ...video, order: index }));
   renderVideos();
@@ -273,7 +274,15 @@ $("#settingsForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   const message = $("#settingsMessage"); message.textContent = "Saving…";
   try {
-    await adminApi.saveSettings({ telegram: $("#telegramSetting").value, whatsapp: $("#whatsappSetting").value });
-    message.textContent = "Contact links saved."; showToast("Contact links updated");
+    const promotionUrl = $("#promotionUrlSetting").value.trim();
+    if (!(/^@?[A-Za-z0-9_]{5,}$/.test(promotionUrl) || /^https:\/\//i.test(promotionUrl))) {
+      throw new Error("Enter a Telegram username or a full HTTPS link.");
+    }
+    await adminApi.saveSettings({
+      telegram: $("#telegramSetting").value,
+      whatsapp: $("#whatsappSetting").value,
+      promotionUrl,
+    });
+    message.textContent = "Links saved."; showToast("Links updated");
   } catch (error) { message.textContent = error.message; }
 });

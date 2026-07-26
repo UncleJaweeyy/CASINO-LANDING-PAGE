@@ -47,6 +47,7 @@ const modalTelegramButton = document.querySelector("#modalTelegramButton");
 const modalWhatsappButton = document.querySelector("#modalWhatsappButton");
 const contactTelegramButton = document.querySelector("#contactTelegramButton");
 const contactWhatsappButton = document.querySelector("#contactWhatsappButton");
+const promotionTelegramButton = document.querySelector("#promotionTelegramButton");
 
 const wheelSlots = [38, 18, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 
@@ -71,6 +72,7 @@ const winnerDelay = 2400;
 let specialistTelegram = "kaiye9998";
 let specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
 let specialistWhatsapp = "";
+let promotionTelegramUrl = "https://t.me/dev_1xroll_test_bot";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mockWinnerPrizes = [38, 88, 108, 188, 88, 108, 38, 188, 108, 88];
 const mockWinnerSeeds = [
@@ -895,7 +897,11 @@ async function initializeContactSettings() {
     const settings = await loadPublicSettings();
     specialistTelegram = settings.telegram || "kaiye9998";
     specialistWhatsapp = settings.whatsapp || "";
+    if (/^https:\/\//i.test(settings.promotionUrl || "")) {
+      promotionTelegramUrl = settings.promotionUrl;
+    }
     specialistTelegramUrl = `https://t.me/${specialistTelegram}`;
+    if (promotionTelegramButton) promotionTelegramButton.href = promotionTelegramUrl;
     if (contactTelegramButton) contactTelegramButton.href = specialistTelegramUrl;
     if (contactWhatsappButton) {
       contactWhatsappButton.href = specialistWhatsapp ? `https://wa.me/${specialistWhatsapp}` : "";
