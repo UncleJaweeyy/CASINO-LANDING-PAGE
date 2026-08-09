@@ -49,6 +49,19 @@ const contactTelegramButton = document.querySelector("#contactTelegramButton");
 const contactWhatsappButton = document.querySelector("#contactWhatsappButton");
 const promotionTelegramButton = document.querySelector("#promotionTelegramButton");
 
+// Keep conversion tracking anonymous: never include form or contact-field values.
+function trackMetaEvent(eventName, parameters = {}) {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", eventName, parameters);
+  }
+}
+
+function trackContactClick(element, placement, channel) {
+  element?.addEventListener("click", () => {
+    trackMetaEvent("Contact", { placement, channel });
+  });
+}
+
 const wheelSlots = [38, 18, 88, 108, 188, 288, 588, 888, 288, 588, 888];
 
 let rotation = 0;
@@ -1114,8 +1127,15 @@ loginButton?.addEventListener("click", (event) => {
   }
 
   event.preventDefault();
+  trackMetaEvent("ViewContent", { content_name: "Member Login" });
   window.open(loginUrl, "_blank", "noopener,noreferrer");
 });
+
+trackContactClick(promotionTelegramButton, "hero", "telegram");
+trackContactClick(contactTelegramButton, "contact_section", "telegram");
+trackContactClick(contactWhatsappButton, "contact_section", "whatsapp");
+trackContactClick(modalTelegramButton, "prize_modal", "telegram");
+trackContactClick(modalWhatsappButton, "prize_modal", "whatsapp");
 
 specialistButton?.addEventListener("click", () => {
   if (!contactSection) {
@@ -1255,6 +1275,11 @@ form.addEventListener("submit", async (event) => {
         strongText(claim.telegram),
         t("winContact")
       );
+      trackMetaEvent("Lead", {
+        content_name: "Bonus Wheel Redemption",
+        currency: "USD",
+        value: Number(selected.prize),
+      });
       openWinModal(claim);
       return;
     }
