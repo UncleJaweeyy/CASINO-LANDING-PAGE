@@ -1,4 +1,4 @@
-import { loadPublicSettings, loadPublicVideos, redeemEligibility } from "./firebase-client.js";
+import { loadPublicSettings, loadPublicVideos, redeemEligibility } from "./firebase-client.js?v=20260809-storage";
 
 const managedVideos = await loadPublicVideos().catch(() => null);
 if (managedVideos !== null) {
