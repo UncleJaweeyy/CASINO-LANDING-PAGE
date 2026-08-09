@@ -1,9 +1,8 @@
 {
   "firestore": { "rules": "firestore.rules" },
-  "storage": { "rules": "storage.rules" },
   "hosting": {
     "public": ".",
-    "ignore": ["firebase.json", "firestore.rules", "storage.rules", ".firebaserc", ".firebase/**", ".git/**", ".gitignore", "firebase-debug.log", "README.md", "**/*.docx", "assets/videos/**"],
+    "ignore": ["firebase.json", "firestore.rules", ".firebaserc", ".firebase/**", ".git/**", ".gitignore", "firebase-debug.log", "README.md", "**/*.docx", "assets/videos/**"],
     "cleanUrls": true,
     "headers": [
       {

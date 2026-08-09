@@ -1,4 +1,4 @@
-import { adminApi, auth } from "./firebase-client.js?v=20260809-storage";
+import { adminApi, auth } from "./firebase-client.js?v=20260809-drive-only";
 
 const $ = (selector) => document.querySelector(selector);
 const loginView = $("#loginView");
@@ -8,7 +8,6 @@ const videoDialog = $("#videoDialog");
 let eligibilityRecords = [];
 let claimRecords = [];
 let videoRecords = [];
-let videoPreviewObjectUrl = "";
 let unsubEligibility;
 let unsubClaims;
 
@@ -18,11 +17,11 @@ const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (character)
 const formatDate = (timestamp) => timestamp?.toDate ? timestamp.toDate().toLocaleString() : "—";
 const badge = (status) => `<span class="badge ${escapeHtml(status)}">${escapeHtml(status)}</span>`;
 const defaultVideos = [
-  { id: "default-1", title: "Winner highlight 1", url: "https://firebasestorage.googleapis.com/v0/b/winbox-bonus-wheel-2026.firebasestorage.app/o/public%2Fvideos%2Fvideo01.mp4?alt=media", storagePath: "public/videos/video01.mp4", enabled: true },
-  { id: "default-2", title: "Winner highlight 2", url: "https://firebasestorage.googleapis.com/v0/b/winbox-bonus-wheel-2026.firebasestorage.app/o/public%2Fvideos%2Fvideo02.mp4?alt=media", storagePath: "public/videos/video02.mp4", enabled: true },
-  { id: "default-3", title: "Winner highlight 3", url: "https://firebasestorage.googleapis.com/v0/b/winbox-bonus-wheel-2026.firebasestorage.app/o/public%2Fvideos%2Fvideo03.mp4?alt=media", storagePath: "public/videos/video03.mp4", enabled: true },
-  { id: "default-4", title: "Winner highlight 4", url: "https://firebasestorage.googleapis.com/v0/b/winbox-bonus-wheel-2026.firebasestorage.app/o/public%2Fvideos%2Fvideo04.mp4?alt=media", storagePath: "public/videos/video04.mp4", enabled: true },
-  { id: "default-5", title: "Winner highlight 5", url: "https://firebasestorage.googleapis.com/v0/b/winbox-bonus-wheel-2026.firebasestorage.app/o/public%2Fvideos%2Fvideo05.mp4?alt=media", storagePath: "public/videos/video05.mp4", enabled: true },
+  { id: "default-1", title: "Winner highlight 1", url: "https://drive.google.com/uc?export=download&id=1qycsdNQuWnB6q2P7SgW4XfAlKicEcCvi", enabled: true },
+  { id: "default-2", title: "Winner highlight 2", url: "https://drive.google.com/uc?export=download&id=1YyFS_sxhENJNnTTz-GCJ6ym-Ukn1zmX9", enabled: true },
+  { id: "default-3", title: "Winner highlight 3", url: "https://drive.google.com/uc?export=download&id=1ZHK7Q_iATMX9ZmH_0vnAhiGud7fm1630", enabled: true },
+  { id: "default-4", title: "Winner highlight 4", url: "https://drive.google.com/uc?export=download&id=1YQ4nB66j1VvQz5eYzN6Uc5mGsroWQmpL", enabled: true },
+  { id: "default-5", title: "Winner highlight 5", url: "https://drive.google.com/uc?export=download&id=1M3JsM_SwzSu-4z7mIB4Ac4SDv_ugQ515", enabled: true },
 ];
 
 function showToast(message) {
@@ -105,23 +104,14 @@ function openVideo(record) {
   $("#videoIdInput").value = record?.id || "";
   $("#videoTitleInput").value = record?.title || "";
   $("#videoUrlInput").value = record?.url || "";
-  $("#videoFileInput").value = "";
   $("#videoEnabledInput").checked = record?.enabled !== false;
   $("#videoMessage").textContent = "";
-  $("#videoUploadProgress").hidden = true;
-  $("#videoUploadProgressBar").value = 0;
   updateVideoPreview();
   videoDialog.showModal();
 }
 
 function updateVideoPreview() {
-  if (videoPreviewObjectUrl) {
-    URL.revokeObjectURL(videoPreviewObjectUrl);
-    videoPreviewObjectUrl = "";
-  }
-  const file = $("#videoFileInput").files[0];
-  if (file) videoPreviewObjectUrl = URL.createObjectURL(file);
-  const url = videoPreviewObjectUrl || $("#videoUrlInput").value.trim();
+  const url = $("#videoUrlInput").value.trim();
   const preview = $("#videoPreview");
   const container = preview.closest(".video-preview");
   if (/^https:\/\//i.test(url) || /^\/?assets\/videos\/[^?#]+\.mp4(?:[?#].*)?$/i.test(url)) {
@@ -132,20 +122,6 @@ function updateVideoPreview() {
     preview.load();
     container.classList.remove("has-video");
   }
-}
-
-function closeVideoDialog() {
-  if (videoPreviewObjectUrl) {
-    URL.revokeObjectURL(videoPreviewObjectUrl);
-    videoPreviewObjectUrl = "";
-  }
-  videoDialog.close();
-}
-
-function updateUploadProgress(percent) {
-  $("#videoUploadProgress").hidden = false;
-  $("#videoUploadProgressBar").value = percent;
-  $("#videoUploadProgressText").textContent = `Uploading ${percent}%`;
 }
 
 function openEligibility(record) {
@@ -213,53 +189,23 @@ $("#claimSearch").addEventListener("input", renderClaims);
 $("#claimFilter").addEventListener("change", renderClaims);
 $("#addEligibilityButton").addEventListener("click", () => openEligibility());
 document.querySelectorAll("[data-close-dialog]").forEach((button) => button.addEventListener("click", () => eligibilityDialog.close()));
-document.querySelectorAll("[data-close-video-dialog]").forEach((button) => button.addEventListener("click", closeVideoDialog));
+document.querySelectorAll("[data-close-video-dialog]").forEach((button) => button.addEventListener("click", () => videoDialog.close()));
 $("#addVideoButton").addEventListener("click", () => openVideo());
 $("#videoUrlInput").addEventListener("input", updateVideoPreview);
-$("#videoFileInput").addEventListener("change", updateVideoPreview);
 
-$("#videoForm").addEventListener("submit", async (event) => {
+$("#videoForm").addEventListener("submit", (event) => {
   event.preventDefault();
-  const message = $("#videoMessage");
-  const submitButton = $("#videoSubmitButton");
-  const file = $("#videoFileInput").files[0];
-  const existingIndex = videoRecords.findIndex((video) => video.id === $("#videoIdInput").value);
-  const existingRecord = existingIndex >= 0 ? videoRecords[existingIndex] : null;
-  let url = $("#videoUrlInput").value.trim();
-  let storagePath = existingRecord?.storagePath || "";
-
-  if (!file && !/^https:\/\//i.test(url) && !/^\/?assets\/videos\/[^?#]+\.mp4(?:[?#].*)?$/i.test(url)) {
-    message.textContent = "Choose an MP4 file, enter an HTTPS video URL, or use an assets/videos MP4 path.";
+  const url = $("#videoUrlInput").value.trim();
+  if (!/^https:\/\//i.test(url)) {
+    $("#videoMessage").textContent = "Enter a valid public HTTPS video URL.";
     return;
   }
-
-  submitButton.disabled = true;
-  message.textContent = file ? "Preparing upload…" : "";
-  try {
-    if (file) {
-      const uploaded = await adminApi.uploadVideo(file, updateUploadProgress);
-      url = uploaded.url;
-      storagePath = uploaded.storagePath;
-    }
-    const id = $("#videoIdInput").value || (crypto.randomUUID?.() || `video-${Date.now()}`);
-    const record = {
-      id,
-      title: $("#videoTitleInput").value.trim(),
-      url,
-      storagePath,
-      enabled: $("#videoEnabledInput").checked,
-    };
-    if (existingIndex >= 0) videoRecords[existingIndex] = record;
-    else videoRecords.push(record);
-    renderVideos();
-    markVideosChanged();
-    closeVideoDialog();
-    showToast(file ? "Upload complete. Save the video list to publish it." : "Video added. Save the list to publish it.");
-  } catch (error) {
-    message.textContent = error.message || "Unable to upload this video.";
-  } finally {
-    submitButton.disabled = false;
-  }
+  const id = $("#videoIdInput").value || (crypto.randomUUID?.() || `video-${Date.now()}`);
+  const record = { id, title: $("#videoTitleInput").value.trim(), url, enabled: $("#videoEnabledInput").checked };
+  const existingIndex = videoRecords.findIndex((video) => video.id === id);
+  if (existingIndex >= 0) videoRecords[existingIndex] = record;
+  else videoRecords.push(record);
+  renderVideos(); markVideosChanged(); videoDialog.close();
 });
 
 $("#videoAdminList").addEventListener("click", (event) => {
