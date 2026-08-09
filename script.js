@@ -1,4 +1,4 @@
-import { loadPublicSettings, loadPublicVideos, redeemEligibility } from "./firebase-client.js?v=20260809-drive-only";
+import { loadPublicSettings, loadPublicVideos, redeemEligibility } from "./firebase-client.js?v=20260809-drive-fallback";
 
 const managedVideos = await loadPublicVideos().catch(() => null);
 if (managedVideos !== null) {
@@ -11,6 +11,7 @@ if (managedVideos !== null) {
   videoViewport.innerHTML = managedVideos.map((video, index) => `<video
     class="video-slide${index === 0 ? " is-active" : ""}"
     src="${escapeAttribute(video.url)}"
+    ${video.fallbackUrl ? `data-fallback-src="${escapeAttribute(video.fallbackUrl)}"` : ""}
     aria-label="${escapeAttribute(video.title || `Winning video ${index + 1}`)}"
     playsinline preload="metadata"></video>`).join("");
   videoDotList.innerHTML = managedVideos.map((video, index) => `<button class="${index === 0 ? "is-active" : ""}" type="button" aria-label="Show ${escapeAttribute(video.title || `video ${index + 1}`)}"></button>`).join("");
@@ -1076,6 +1077,17 @@ function finishVideoSwipe(event) {
 }
 
 if (videoSlides.length) {
+  videoSlides.forEach((video) => {
+    video.addEventListener("error", () => {
+      const fallbackUrl = video.dataset.fallbackSrc;
+      if (!fallbackUrl || video.dataset.fallbackApplied === "true") return;
+      video.dataset.fallbackApplied = "true";
+      video.src = fallbackUrl;
+      video.load();
+      if (video.classList.contains("is-active") && isVideoSectionActive) playActiveVideo();
+    });
+  });
+
   showVideo(0);
 
   videoDots.forEach((dot, index) => {

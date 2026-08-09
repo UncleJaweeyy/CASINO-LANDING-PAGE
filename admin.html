@@ -102,14 +102,17 @@
       <div class="dialog-heading"><div><p class="eyebrow">VIDEO</p><h2 id="videoDialogTitle">Add video</h2></div><button class="close-button" type="button" data-close-video-dialog>×</button></div>
       <input id="videoIdInput" type="hidden" />
       <label>Display title<input id="videoTitleInput" maxlength="100" placeholder="Winner highlight" required /></label>
-      <label>Google Drive or HTTPS video URL<span>Use a public direct-download link</span><input id="videoUrlInput" type="url" inputmode="url" placeholder="https://drive.google.com/uc?export=download&amp;id=..." required /></label>
+      <label>Upload MP4 to Firebase Storage<span>Maximum file size: 200 MB</span><input id="videoFileInput" type="file" accept="video/mp4,.mp4" /></label>
+      <div class="upload-progress" id="videoUploadProgress" hidden><span id="videoUploadProgressText">Uploading 0%</span><progress id="videoUploadProgressBar" max="100" value="0"></progress></div>
+      <p class="field-divider"><span>or use an existing video</span></p>
+      <label>Video URL or hosted path<span>Use HTTPS or assets/videos/video.mp4</span><input id="videoUrlInput" type="text" inputmode="url" placeholder="assets/videos/video.mp4" /></label>
       <label class="toggle-label"><input id="videoEnabledInput" type="checkbox" checked /><span>Show this video on the live site</span></label>
-      <div class="video-preview"><video id="videoPreview" controls playsinline preload="metadata"></video><p id="videoPreviewEmpty">Enter a URL to preview the video.</p></div>
-      <div class="dialog-actions"><button class="ghost" type="button" data-close-video-dialog>Cancel</button><button type="submit">Save video</button></div>
+      <div class="video-preview"><video id="videoPreview" controls playsinline preload="metadata"></video><p id="videoPreviewEmpty">Choose a file or enter a URL to preview the video.</p></div>
+      <div class="dialog-actions"><button class="ghost" type="button" data-close-video-dialog>Cancel</button><button id="videoSubmitButton" type="submit">Save video</button></div>
       <p class="form-message" id="videoMessage" role="alert"></p>
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script type="module" src="admin.js?v=20260809-drive-only"></script>
+  <script type="module" src="admin.js?v=20260809-storage"></script>
 </body>
 </html>
