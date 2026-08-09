@@ -63,6 +63,18 @@ function firebaseStorageVideoUrl(number) {
   return `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/public%2Fvideos%2Fvideo0${number}.mp4?alt=media`;
 }
 
+const googleDriveVideoIds = {
+  1: "1qycsdNQuWnB6q2P7SgW4XfAlKicEcCvi",
+  2: "1YyFS_sxhENJNnTTz-GCJ6ym-Ukn1zmX9",
+  3: "1ZHK7Q_iATMX9ZmH_0vnAhiGud7fm1630",
+  4: "1YQ4nB66j1VvQz5eYzN6Uc5mGsroWQmpL",
+  5: "1M3JsM_SwzSu-4z7mIB4Ac4SDv_ugQ515",
+};
+
+function googleDriveVideoUrl(number) {
+  return `https://drive.google.com/uc?export=download&id=${googleDriveVideoIds[number]}`;
+}
+
 function normalizeVideoUrl(value) {
   const url = String(value || "").trim();
   const legacyCloudinaryVideo = /^https:\/\/res\.cloudinary\.com\//i.test(url)
@@ -77,13 +89,24 @@ function isSupportedVideoUrl(value) {
   return /^https:\/\//i.test(value) || /^\/?assets\/videos\/[^?#]+\.mp4(?:[?#].*)?$/i.test(value);
 }
 
+function preferGoogleDriveForBundledVideo(video) {
+  const normalizedUrl = normalizeVideoUrl(video.url);
+  const bundledStorageVideo = normalizedUrl.match(/public%2Fvideos%2Fvideo0([1-5])\.mp4/i);
+  if (!bundledStorageVideo) return { ...video, url: normalizedUrl };
+  return {
+    ...video,
+    url: googleDriveVideoUrl(bundledStorageVideo[1]),
+    fallbackUrl: normalizedUrl,
+  };
+}
+
 export async function loadPublicVideos() {
   const snapshot = await getDoc(doc(db, "settings", "videos"));
   if (!snapshot.exists()) return null;
   const videos = Array.isArray(snapshot.data().items) ? snapshot.data().items : [];
   return videos
     .filter((video) => video && video.enabled !== false)
-    .map((video) => ({ ...video, url: normalizeVideoUrl(video.url) }))
+    .map(preferGoogleDriveForBundledVideo)
     .filter((video) => isSupportedVideoUrl(video.url))
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 }
